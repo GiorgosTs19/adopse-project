@@ -1,0 +1,319 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, p, h6, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video 
+    {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+    }
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* End of Reset */
+
+html	{ 	}
+body    
+    {
+        background-color:#B9B9B9;
+        font-family: 'Montserrat', sans-serif;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+
+#wrapper		{ width:auto; margin:0px auto; background-color:#ffffff;}
+
+#top			{ background-color:black; width:100%; padding:10px 0; overflow:hidden;text-align:center;
+    border-bottom:3px #cccccc solid; }
+
+#logo			{ margin:0 0 0 30px; float:left;  }
+
+
+
+
+
+
+@media screen and (max-width: 500px) 
+    {
+        .navbar a 
+            {
+                float: none;
+                display: block;
+                width: 100%;
+                text-align: left;
+            }
+    }
+
+#banner			{ background-color:#C9C9C9;	}
+#banner h1		{ width:100%; }
+
+#subbanner		{ width:100%; background-color:#333333;
+    padding:15px 0; overflow:hidden;}
+#subbanner h3 		{ color:#ffffff; font-size:16px; font-weight:bold;
+    text-align:center; line-height:100%	}
+
+#wrapper	        {background-color: #b9b9b9;}
+#QuizCF                 {float: left;}
+#myQuestionsList        {float: left; height:1920px; overflow-y: scroll;}
+#CTBurger               {float: left;}
+#leftnav		{background-color: #b9b9b9;}
+
+#leftside		{	}
+
+#rightside		{ padding:20px; margin-left:75%; border-left:1px #777777 solid; margin-top:10px;	}
+#rightside h2		{ margin:20px 0 10px 0;	}
+#rightside p		{ margin:8px 0; line-height:160%; }
+#rightside img 		{ width:100%; height: auto;	}
+#rightside h2		{ font-weight:bold; font-size:20px; }
+
+#content        { float:left;
+                    margin-right: 2%; margin-left: 1.5%;
+                    transition: margin-left .5s; padding: 16px; width: 95%; }
+
+#content h1	{ margin: 0 0 0 0; font-size:32px;
+    border-bottom:2px #3a3a3a solid; padding:20px 0; text-align:center; margin-bottom: 60px;}
+
+#content h2	{ margin:50px 0 0 0; font-size:24px; text-decoration:underline; }
+
+#content img	{ padding:8px; border:1px #888888 solid; margin:8px; }
+
+#footer		{clear:both; background-color:#000000; padding:8px 0;}
+#footer p   { text-align:center; color:#ffffff;}
+
+header
+    {
+
+    }
+
+/*Arxi CSS gia to signup Form*/
+form {width: 50%;margin-left: 1%;margin-top: 1%;margin-bottom: 1%;}
+input[type=email], input[type=password], input[type=id] 
+    {
+/*        width: 300px;*/
+        padding: 12px 20px;
+        margin: 8px 8px 8px 8px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+#ShortDesc, #Title, #Topic
+    {       
+/*        width: 200px;*/
+        padding: 12px 15px;
+        margin: 8px 8px 8px 8px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    
+
+.error
+    {
+        color: red;
+    }
+.Success
+    {
+        color: greenyellow;
+    }
+#signupButton 
+    {
+        background-color: #0052ff;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 18%;
+    }
+
+#RememberMe{ margin-left: 1%; }
+/*Telos CSS gia signup*/
+
+button:hover {opacity: 0.8;}
+
+.sidenav 
+    {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #2f2f2f;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        margin-top: 122px;
+    }
+
+.sidenav a,.sidenav p 
+    {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #b4b4b4;
+        display: block;
+        transition: 0.3s;
+    }
+
+.sidenav a:hover 
+    {
+        color: #f1f1f1;
+    }
+
+.sidenav .closebtn 
+    {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+.hr-top
+    {
+        border: 1px solid black;
+        width: 100%;
+    }
+
+
+
+
+
+
+
+
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+header h1{
+    color:rgba(256,256,256,.8);
+    margin-left: 30px;
+    margin-top: 30px;
+    font-size: 54px;
+}
+
+legend 
+{
+    margin-top: 30px;
+    font-size: 25px;
+}
+
+.btn-group .button {
+    background-color: #0052ff;
+    border: 1px solid green;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: left;
+    margin-right: 10px;
+
+    height: 100px;
+
+
+
+
+}
+
+.button{
+    width: 300px;
+}
+
+.btn-group{
+    position: absolute;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+.btn-group .button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+.btn-group .button:hover {
+    background-color: #003fc9;
+}
+
+.btn {
+
+    border: none;
+    cursor: pointer;
+    background-color: #d2d2d2;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+.active, btn:hover {
+    background-color: #0052ff;
+    color: white;
+}
+
+.btn button:hover:not(.active) {background-color: #777777; opacity: 100%;}
+
+.pagination 
+{
+    text-align: center;
+}
+#contenttext{ margin:20px 0 0 0; line-height:200%; font-size:20px;}
+.tip{ margin:5px 0 0 0; line-height:100%; font-size:12px;}
