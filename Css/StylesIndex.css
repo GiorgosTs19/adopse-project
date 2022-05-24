@@ -1,0 +1,389 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* End of Reset */
+
+html	{ 	}
+body    {
+    background-color:#B9B9B9;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0 auto;
+    width: 100%;
+}
+
+
+#wrapper			{ width:auto; margin:0px auto; background-color:#ffffff; }
+
+#top				{ background-color:black; width:100%; padding:10px 0; overflow:hidden;text-align:center;
+    border-bottom:3px #cccccc solid; }
+
+#logo				{ margin:0 0 0 30px; float:left;  }
+
+
+
+
+
+
+@media screen and (max-width: 500px) {
+    .navbar a {
+        float: none;
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+}
+
+#banner				{ background-color:#C9C9C9;	}
+#banner h1			{ width:100%; }
+
+#subbanner			{ width:100%; background-color:#333333;
+    padding:15px 0; overflow:hidden;	}
+#subbanner h3 		{ color:#ffffff; font-size:16px; font-weight:bold;
+    text-align:center; line-height:100%	}
+
+#wrapper	        { 	}
+
+#leftnav			{	}
+
+#leftside			{	}
+
+#rightside			{ padding:20px; margin-left:75%; border-left:1px #777777 solid; margin-top:10px;	}
+#rightside h2		{ margin:20px 0 10px 0;	}
+#rightside p		{ margin:8px 0; line-height:160%; }
+#rightside img 		{ width:100%; height: auto;	}
+#rightside h2		{ font-weight:bold; font-size:20px; }
+
+#content			{ float:left;
+                        margin-right: 2%; margin-left: 1.5%;
+                        transition: margin-left .5s; padding: 16px; width: 95%; }
+#content h1			{ margin: 0 0 0 0; font-size:32px;
+    border-bottom:2px #3a3a3a solid; padding:20px 0; text-align:center; margin-bottom: 20px; width: 100%;
+}
+
+#content h2			{ margin:50px 0 0 0; font-size:24px; text-decoration:underline; }
+#content p			{ margin:30px 0 0 0; line-height:200%; font-size:20px;	}
+#content img		{ padding:8px; border:1px #888888 solid; margin:8px; }
+
+#footer				{ clear:both; background-color:#000000; padding:8px 0;	}
+#footer p			{ text-align:center; color:#ffffff;	}
+
+
+header{
+
+
+}
+
+/*Arxi CSS gia to signup Form*/
+form {width: 90%;
+    margin: 0% 2% 0% 5%;
+    height: 100%;}
+input[type=email], input[type=password], input[type=name], input[type=id] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+
+
+#signupButton {
+    background-color: #0052ff;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 18%;
+}
+
+#RememberMe{ margin-left: 1%; }
+/*Telos CSS gia signup*/
+
+button:hover {
+    opacity: 0.8;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #2f2f2f;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    margin-top: 122px;
+
+}
+
+.sidenav a,.sidenav p {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #b4b4b4;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+
+.hr-top{
+    border: 1px solid black;
+    width: 100%;
+
+}
+
+
+
+
+
+
+
+
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+header h1{
+    color:rgba(256,256,256,.8);
+    margin-left: 30px;
+    margin-top: 30px;
+    font-size: 54px;
+}
+
+legend {
+
+
+
+    margin-top: 30px;
+    font-size: 54px;
+
+}
+
+.btn-group .button {
+    background-color: #0052ff;
+    border: 1px solid green;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: left;
+    margin-right: 10px;
+
+    height: 100px;
+
+
+
+
+}
+
+.button{
+    width: 300px;
+}
+
+.btn-group{
+    position: absolute;
+    left: 50%;
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    display: inline;
+    float: right;
+}
+
+.btn-group .button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+.btn-group .button:hover {
+    background-color: #003fc9;
+}
+
+
+
+
+
+
+
+
+.btn {
+
+    border: none;
+    cursor: pointer;
+    background-color: #d2d2d2;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+.active, btn:hover {
+    background-color: #0052ff;
+    color: white;
+}
+
+.btn button:hover:not(.active) {background-color: #777777; opacity: 100%;}
+
+.pagination {
+    text-align: center;
+}
+
+
+
+#contentbody{display:inline; float:left; padding:0px 0 22px; width:100%}
+.leftbar_content{float:left; display:inline; width:45%; min-height:200px;margin-left: 2%;}
+.leftbar_content > h2{background:none repeat scroll 0 0 #0052ff; border-bottom:1px solid #0052ff; border-top:1px solid #003fc9; font-size:16px; font-weight:bold;
+                        margin:0 0 25px; padding:5px 25px; line-height:32px; margin-left: 2%; color: white;}
+.single_stuff{float:left; display:inline; min-width: 80%; max-width:80%; padding:0 15px; margin-bottom:30px; margin-left: 2%;}
+.single_stuff_img{float:left; display:inline; width:100%}
+.single_stuff_img a{display:block; -webkit-transition:all 0.5s; -o-transition:all 0.5s; transition:all 0.5s}
+.single_stuff_img img{width:100%; margin-bottom: 30px; height: 200px;
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    cursor: pointer;}
+.single_stuff_article{float:left; display:inline; max-width:100%; min-width: 100%; background-color:#fff; border-bottom:1px solid #bebebd; border-left:1px solid #e3e3e3; border-right:1px solid #bebebd;}
+.single_sarticle_inner{background-color:#fff; display:inline; float:left; /*margin:-60px 20px 0;*/ padding:10px 20px; max-width: 50%;min-width: 50%;}
+.stuff_category{color:#444; display:inline-block; font-size:10px; outline:medium none; text-decoration:none; text-transform:uppercase}
+.stuff_article_inner{float:left; display:inline; width:100%}
+.stuff_date{background-color: #0094ff; border-radius:3px; color:#fff; float:left; font-size:14px; margin:10px 15px 0 0; padding:5px 8px; text-align:center;}
+.stuff_date strong{font-size:20px}
+.stuff_article_inner h2{font-size:24px; line-height:1.5em; margin:0; padding:5px 0 0}
+.stuff_article_inner h2 > a{color:#444}
+.stuff_article_inner p{line-height:1.5em; padding:10px 0}
+
+.stuffpost_paginatinonarea{display:inline; float:left; padding:0 15px; width:40%}
+.newstuff_pagnav{text-align:left}
+.newstuff_pagnav li{display:inline-block}
+.newstuff_pagnav li a{display:inline-block; background:none repeat scroll 0 0 #333; border-radius:5px; color:white; margin:0 2px 0 0; padding:10px 15px; -webkit-transition:all 0.5s; -o-transition:all 0.5s; transition:all 0.5s}
+.newstuff_pagnav li a:hover, .newstuff_pagnav li a:focus, .newstuff_pagnav li a.active_page{background-color: #0094ff; outline:none}
+
+
+.rightbar_content{float:left; display:inline; width:40%; min-height:200px; padding-left: 100px;}
+.rightbar_content > h2{background:none repeat scroll 0 0 #0052ff; border-bottom:1px solid #0052ff; border-top:1px solid #003fc9; font-size:16px; font-weight:bold;
+    margin:0 0 25px; padding:5px 25px; line-height:32px; margin-left: 2%; width: 100%; color: white;}
+
+.single_blog_sidebar{float:right; display:inline; width:100%; padding:0 25px}
+.single_blog_sidebar > h2{background:none repeat scroll 0 0 white; border-bottom:1px solid #e3e3e3;
+    border-top:1px solid #e3e3e3; font-size:16px; font-weight:bold; line-height:32px; margin:0 0 25px -25px;
+    padding:5px 25px; width:116%}
+
+.middlebar_content_inner{border-left:1px solid #bebebd; border-right:1px solid #bebebd; display:inline; float:left; padding:25px 15px 20px; width:100%}
+.middlebar_nav{padding:0; margin:0}
+.middlebar_nav li{display:block; float:left; margin-bottom:15px; width:100%}
+.mbar_thubnail{display:block; float:left; height:auto; margin-right:10px; width:30%}
+.mbar_thubnail > img{max-width:100%}
+.mbar_title{color:#666; display:inline-block; float:left; font-size:15px; margin-top:5px; width:65%}
+
+.imagewrap {display:inline-block;position:relative;}
+
+
+.button1 {position:absolute;left:45%;top:50%;}
+.button2 {position:absolute;top:0;right:0;}
+
+#avatar{width: 100px;border-radius: 50%;margin-left: 30%;margin-bottom: 20px;}
+
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+
+}
+
+.single_stuff_img:hover img{
+    opacity: 0.3;
+}
+
+
+
+.single_stuff_img:hover .middle {
+    opacity: 1;
+}
+
+.single_stuff_img:hover .editbutton {opacity: 1;}
+
+
