@@ -1,8 +1,12 @@
 <?php
 session_start();
+if($_SESSION["LoggedIn"])
+{
+    header("Location: http://localhost/ADOPSE/PHP/index.php");
+}
 ?>
 <?php 
-        require_once "Functions.php";
+        require_once "Functions/Functions.php";
         include_once("Objects/User.php");
         $servername = "localhost";
         $dbusername = "adopse";
@@ -10,7 +14,7 @@ session_start();
         $_SESSION["servername"] = "localhost";
         $_SESSION["dbusername"] = "adopse";
         $_SESSION["dbpassword"] = "Adopse@2022";
-        
+
         
         $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
               // set the PDO error mode to exception
@@ -68,8 +72,9 @@ session_start();
                                                     $passok = true;
                                                     //$passErr = "";
                                                     setUser($_POST["email"]);
+                                                    $_SESSION["LoggedIn"] = true;
                                                     $Success = "You have successfully signed in";
-                                                    header("Location: http://localhost/ADOPSE/PHP/Create_Test.php");
+                                                    header("Location: http://localhost/ADOPSE/PHP/index.php");
                                                     exit(); 
                                                 }
                                             else
@@ -91,6 +96,7 @@ session_start();
                 }       
 ?>
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title></title>

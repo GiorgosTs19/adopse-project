@@ -51,7 +51,7 @@ table {
 
 html	{ 	}
 body    {
-    background-color:#B9B9B9;
+    background-color: #ffffff;
     font-family: 'Montserrat', sans-serif;
     margin: 0 auto;
     width: 100%;
@@ -93,7 +93,7 @@ body    {
 
 #leftside			{	}
 
-#rightside			{ padding:20px; margin-left:75%; border-left:1px #777777 solid; margin-top:10px;	}
+#rightside			{ padding:20px; margin-left:75%; border-left:1px #ffffff solid; margin-top:10px;	}
 #rightside h2		{ margin:20px 0 10px 0;	}
 #rightside p		{ margin:8px 0; line-height:160%; }
 #rightside img 		{ width:100%; height: auto;	}
@@ -103,7 +103,7 @@ body    {
                         margin-right: 2%; margin-left: 1.5%;
                         transition: margin-left .5s; padding: 16px; width: 95%; }
 #content h1			{ margin: 0 0 0 0; font-size:32px;
-    border-bottom:2px #3a3a3a solid; padding:20px 0; text-align:center; margin-bottom: 60px; width: 100%;
+    border-bottom:2px #3a3a3a solid; padding:20px 0; text-align:center; margin-bottom: 20px; width: 100%;
 }
 
 #content h2			{ margin:50px 0 0 0; font-size:24px; text-decoration:underline; }
@@ -120,7 +120,9 @@ header{
 }
 
 /*Arxi CSS gia to signup Form*/
-form {width: 50%;margin-left: 1%;margin-top: 1%;margin-bottom: 1%;}
+form {width: 90%;
+    margin: 0% 2% 0% 5%;
+    height: 100%;}
 input[type=email], input[type=password], input[type=name], input[type=id] {
     width: 100%;
     padding: 12px 20px;
@@ -306,19 +308,24 @@ legend {
 
 
 
-#contentbody{display:inline; float:left; padding:65px 0 22px; width:100%}
-.leftbar_content{float:left; display:inline; width:40%; min-height:200px}
+#contentbody{display:inline; float:left; padding:0px 0 22px; width:100%}
+.leftbar_content{float:left; display:inline; width:45%; min-height:200px;margin-left: 2%;}
 .leftbar_content > h2{background:none repeat scroll 0 0 #0052ff; border-bottom:1px solid #0052ff; border-top:1px solid #003fc9; font-size:16px; font-weight:bold;
-                        margin:0 0 25px; padding:5px 25px; line-height:32px; margin-left: 2%; width: 100%; color: white;}
-.single_stuff{float:left; display:inline; width:100%; padding:0 15px; margin-bottom:30px; margin-left: 2%;}
+                        margin:0 0 25px; padding:5px 25px; line-height:32px; margin-left: 2%; color: white;}
+.single_stuff{float:left; display:inline; min-width: 80%; max-width:80%; padding:0 15px; margin-bottom:30px; margin-left: 2%;}
 .single_stuff_img{float:left; display:inline; width:100%}
 .single_stuff_img a{display:block; -webkit-transition:all 0.5s; -o-transition:all 0.5s; transition:all 0.5s}
-.single_stuff_img img{max-width:100%; margin-bottom: 30px;}
-.single_stuff_article{float:left; display:inline; width:100%; background-color:#fff; border-bottom:1px solid #bebebd; border-left:1px solid #e3e3e3; border-right:1px solid #bebebd}
-.single_sarticle_inner{background-color:#fff; display:inline; float:left; margin:-60px 20px 0; padding:10px 20px; width:auto}
+.single_stuff_img img{width:100%; margin-bottom: 30px; height: 200px;
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    cursor: pointer;}
+.single_stuff_article{float:left; display:inline; max-width:100%; min-width: 100%; background-color:#fff; border-bottom:1px solid #bebebd; border-left:1px solid #e3e3e3; border-right:1px solid #bebebd;}
+.single_sarticle_inner{background-color:#fff; display:inline; float:left; /*margin:-60px 20px 0;*/ padding:10px 20px; max-width: 50%;min-width: 50%;}
 .stuff_category{color:#444; display:inline-block; font-size:10px; outline:medium none; text-decoration:none; text-transform:uppercase}
 .stuff_article_inner{float:left; display:inline; width:100%}
-.stuff_date{background-color: #0094ff; border-radius:3px; color:#fff; float:left; font-size:14px; margin:10px 15px 0 0; padding:5px 8px; text-align:center; width:56px}
+.stuff_date{background-color: #0094ff; border-radius:3px; color:#fff; float:left; font-size:14px; margin:10px 15px 0 0; padding:5px 8px; text-align:center;}
 .stuff_date strong{font-size:20px}
 .stuff_article_inner h2{font-size:24px; line-height:1.5em; margin:0; padding:5px 0 0}
 .stuff_article_inner h2 > a{color:#444}
@@ -331,7 +338,7 @@ legend {
 .newstuff_pagnav li a:hover, .newstuff_pagnav li a:focus, .newstuff_pagnav li a.active_page{background-color: #0094ff; outline:none}
 
 
-.rightbar_content{float:left; display:inline; width:40%; min-height:200px; margin-left: 100px; padding-left: 200px;}
+.rightbar_content{float:left; display:inline; width:40%; min-height:200px; padding-left: 100px;}
 .rightbar_content > h2{background:none repeat scroll 0 0 #0052ff; border-bottom:1px solid #0052ff; border-top:1px solid #003fc9; font-size:16px; font-weight:bold;
     margin:0 0 25px; padding:5px 25px; line-height:32px; margin-left: 2%; width: 100%; color: white;}
 
@@ -354,3 +361,29 @@ legend {
 .button2 {position:absolute;top:0;right:0;}
 
 #avatar{width: 100px;border-radius: 50%;margin-left: 30%;margin-bottom: 20px;}
+
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+
+}
+
+.single_stuff_img:hover img{
+    opacity: 0.3;
+}
+
+
+
+.single_stuff_img:hover .middle {
+    opacity: 1;
+}
+
+.single_stuff_img:hover .editbutton {opacity: 1;}
+
+

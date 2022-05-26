@@ -1,19 +1,19 @@
 <?php
 session_start();
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <link href="../Css/Styles.css" rel="stylesheet" type="text/css" media="screen"/>
-        <link href="../Css/Answers.scss" rel="stylesheet" type="text/css" media="screen"/>       
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="../Javascript/Javascript.js"></script>
-    </head>
-    <body>
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--    <head>-->
+<!--        <link href="../../Css/Styles.css" rel="stylesheet" type="text/css" media="screen"/>-->
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+<!--        <script src="../../Javascript/Javascript.js"></script>-->
+<!--        <script src="../../Javascript/Javascript.js"></script>-->
+<!--    </head>-->
+<!--    <body>-->
         <?php
         include_once("../Objects/Question.php");
         include_once("../Objects/Answer.php");
-        require_once "../Functions.php";
+        require_once "../Functions/Functions.php";
         include_once("../Objects/User.php");
         $id = $_SESSION["UserId"];
         $servername = "localhost";
@@ -27,57 +27,78 @@ session_start();
         $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $q = "SELECT id, question, type, topic, idcreator idcreator FROM questions WHERE idcreator = ?";
-        $stmt = $GLOBALS['conn']->prepare($q);
-        $stmt->execute([$id]);
-        $results = $stmt->fetchAll();
-        $quizid = selectMaxFromCreator($user->ID,"quizes");
-
-        foreach ($results as $question) 
+//        $q = "SELECT id, question, type, topic, idcreator FROM questions WHERE idcreator = ?";
+//        $stmt = $GLOBALS['conn']->prepare($q);
+//        $stmt->execute([$id]);
+//        $results = $stmt->fetchAll();
+        if($_GET['id']==0)
             {
-                echo '<div class="questionWrap" id='.$question['id'].'>';
-                echo    '<div class="question Properties">';
-                echo        '<h1>Type : <span>'.$question['type'].'</span></h1>';
-                echo         '<div class="text">';
-                echo            '<h3>Question </h3>';
-                echo            '<span>'.$question['question'].'</span>';
-                echo         '</div>';
-                echo         '<div class="topic">';
-                echo            '<span>Topic : <h2>'.$question['topic'].'</h2></span>';
-                echo         '</div>';
-//                echo         '<div class="seat">';
-//                echo            '<h2>156</h2>';
-//                echo            '<span>seat</span>';
-//                echo         '</div>';
-//                echo         '<div class="time">';
-//                echo            '<h2>12:00</h2>';
-//                echo            '<span>time</span>';
-//                echo         '</div>';
-                echo    '</div>';
-                echo    '<div class="question Answers">';
-                echo        '<div>';
-                echo            '<span>Answers :</span>';
-                echo        '</div>';
-                echo            '<div>';
-                $i=0;
-                foreach (selectQuestionAnswers($question['id']) as $answer) 
+                $quizid = selectMaxFromCreator($user->ID,"quizes");
+                $results = selectAllUserQuestions($user->ID);
+            }
+        else if($_GET['id']>0)
+            {
+                $quizid = $_GET['id'];
+                $results = selectQuestionsNotAlreadyInCurrentQuiz($quizid);
+            }
+        else
+            {
+                $results = selectAllUserQuestions($user->ID);
+            }
+
+
+
+        if(empty($results))
+            {
+                echo "You haven't created any Questions yet !";
+            }
+        elseif (empty($results) && $_GET['id']>0)
+            {
+                echo "You have added all your questions to this quiz!";
+            }
+        else
+            {
+                foreach ($results as $question)
                     {
-                        $i++;
-                        echo    '<span>'.$answer['text'].'.</span>';
-                        echo    '<h3>'.$answer['correct'].'</h3>';
-                    }
-                echo            '</div>';
-//                echo        '<div class="barcode"></div>';
-                echo    '</div>';
-                echo '<form id="addtoquestion'.$question['id'].'" action=" " method="post">';
-                echo '<fieldset>';
-                echo '<input type="text" class ="addToThisQuiz" id="addToThisQuiz'.$quizid.'" name = "addToThisQuiz" value="'.$quizid.'" hidden>';
-                echo '<input type="text" class ="thisQuestion" id="thisQuestion'.$question['id'].'" name = "thisQuestion" value="'.$question['id'].'" hidden>';
-                echo '<input type="submit" value="Add To Quiz">';
-                echo '</fieldset>';
-                echo '</form>';
-                echo '</div>';
-            }       
+                        echo '<div class="questionWrap" id='.$question['id'].'>';
+                        echo    '<div class="question Properties">';
+                        echo        '<h1>Type : <span>'.$question['type'].'</span></h1>';
+                        echo         '<div class="text">';
+                        echo            '<h3>Question </h3>';
+                        echo            '<span>'.$question['question'].'</span>';
+                        echo         '</div>';
+                        echo         '<div class="topic">';
+                        echo            '<span>Topic : <h2>'.$question['topic'].'</h2></span>';
+                        echo         '</div>';
+                        echo    '</div>';
+                        echo    '<div class="question Answers">';
+                        echo        '<div>';
+                        echo            '<span>Answers :</span>';
+                        echo        '</div>';
+                        echo            '<div>';
+                        $i=0;
+
+                        foreach (selectQuestionAnswers($question['id']) as $answer)
+                            {
+                                $i++;
+                                echo    '<span>'.$answer['text'].'. : <h3>'.$answer['correct'].'</h3></span>';
+                                echo    '';
+                            }
+                        echo            '</div>';
+                        echo    '</div>';
+                        if($_GET['id']>0 || $_GET['id']==0)
+                            {
+                                echo '<form id="addquestion' . $question['id'] . '" action=" " method="post">';
+                                echo '<fieldset>';
+                                echo '<input type="text" class ="addToThisQuiz" id="addToThisQuiz' . $quizid . '" name = "addToThisQuiz" value="' . $quizid . '" hidden>';
+                                echo '<input type="text" class ="thisQuestion" id="thisQuestion' . $question['id'] . '" name = "thisQuestion" value="' . $question['id'] . '" hidden>';
+                                echo '<input type="submit" value="Add To Quiz">';
+                                echo '</fieldset>';
+                                echo '</form>';
+                            }
+                        echo '</div>';
+                }
+            }
         ?>
-    </body>
-</html>
+<!--    </body>-->
+<!--</html>-->

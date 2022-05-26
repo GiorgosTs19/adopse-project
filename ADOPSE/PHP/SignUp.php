@@ -4,7 +4,7 @@ session_start();
 ?>
 <html>
     <?php
-        require_once "Functions.php";
+        require_once "Functions/Functions.php";
         $servername = "localhost";
         $dbusername = "adopse";
         $dbpassword = "Adopse@2022";

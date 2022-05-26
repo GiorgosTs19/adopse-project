@@ -14,7 +14,7 @@ session_start();
         include_once("../Objects/Question.php");
         include_once("../Objects/Answer.php");
         include_once("../Objects/User.php");
-        require_once "../Functions.php";
+        require_once "../Functions/Functions.php";
         $id = $_SESSION["UserId"];
         $servername = "localhost";
         $dbusername = "adopse";
