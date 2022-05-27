@@ -10,12 +10,8 @@ if(!$_SESSION["LoggedIn"])
 require_once "../Functions/Functions.php";
 require_once "../Functions/QuizFunctions.php";
 include_once("../Objects/User.php");
-$servername = "localhost";
-$dbusername = "adopse";
-$dbpassword = "Adopse@2022";
-$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once "../database.php";
+$conn = getConnection();
 //User Initialization
 $user = new User();
 $user->setID($_SESSION["UserId"]);
@@ -39,7 +35,7 @@ $user->setEmail($_SESSION["UserE"]);
             AND userid = ? AND
             quizid=? AND questionid=?;";
 
-    $stmt1 = $GLOBALS['conn']->prepare($q1);
+    $stmt1 = $conn->prepare($q1);
     $stmt1->execute([$currentattemptid['attemptid'], $user->ID, $currentquiz]);
     $result = $stmt1->fetchAll();
     return $result;

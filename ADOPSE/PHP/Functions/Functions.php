@@ -1,13 +1,20 @@
 <?php
 
+$servername = "localhost";
+$dbusername = "root";
+$dbpassword = "adopse";
+
+$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
+// set the PDO error mode to exception
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 function emailExists(String $email,String $genError) 
     {
-        $GLOBALS['temp2'] = $email;
-
+        global $conn;
         try
             {
                 $q = "SELECT 1 FROM users WHERE email=?";
-                $stmt = $GLOBALS['conn']->prepare($q);
+                $stmt = $conn->prepare($q);
                 $stmt->execute([$email]);
                 $_SESSION['exec_reset'] = 0;
                 $GLOBALS['temp3'] = 1;
@@ -19,10 +26,11 @@ function emailExists(String $email,String $genError)
     
 function PasswordIsAuthenticated(String $password, $genError, String $email) 
     {
+        global $conn;
         try
             {
                 $q = "SELECT password FROM users WHERE email=?";
-                $stmt = $GLOBALS['conn']->prepare($q);
+                $stmt = $conn->prepare($q);
                 $stmt->execute([$email]);
                 $_SESSION['exec_reset'] = 0;
                 $GLOBALS['temp3'] = 1;
@@ -41,8 +49,15 @@ function PasswordIsAuthenticated(String $password, $genError, String $email)
     
 function selectMaxFromCreator($id,$table)
     {
+        $servername = "localhost";
+        $dbusername = "root";
+        $dbpassword = "adopse";
+
+        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
+// set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $q = "SELECT MAX(id) as mid FROM $table WHERE idcreator=? LIMIT 1";
-            $stmt = $GLOBALS['conn']->prepare($q);
+            $stmt = $conn->prepare($q);
             $stmt->execute([$id]);
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
             return $results["mid"];
@@ -51,8 +66,15 @@ function selectMaxFromCreator($id,$table)
     
 function selectQuestionAnswers($qid)
     {
+        $servername = "localhost";
+        $dbusername = "root";
+        $dbpassword = "adopse";
+
+        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
+// set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $q = "SELECT id, text, correct, parent FROM answers WHERE parent=?";
-        $stmt = $GLOBALS['conn']->prepare($q);
+        $stmt = $conn->prepare($q);
         $stmt->execute([$qid]);
         $results = $stmt->fetchAll();
         return $results;
@@ -60,6 +82,7 @@ function selectQuestionAnswers($qid)
 
 function selectQuestionsNotAlreadyInCurrentQuiz($qid)
     {
+        global $conn;
         $select = "
             select distinct * 
             from questions 
@@ -76,14 +99,22 @@ function selectQuestionsNotAlreadyInCurrentQuiz($qid)
                             where quizid=?
                         )
                     );";
-        $stmt1 = $GLOBALS['conn']->prepare($select);
+        $stmt1 = $conn->prepare($select);
         $stmt1->execute([$qid]);
         return $stmt1->fetchAll();
     }
 
 function selectQuestionsAlreadyInCurrentQuiz($qid)
     {
-        $select = "	
+        $servername = "localhost";
+        $dbusername = "root";
+        $dbpassword = "adopse";
+
+        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
+// set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $select = "	    
             select * 
             from questions
             where id 
@@ -93,18 +124,19 @@ function selectQuestionsAlreadyInCurrentQuiz($qid)
                     FROM  quizquestions 
                     where quizid=?
                 );";
-        $stmt1 = $GLOBALS['conn']->prepare($select);
+        $stmt1 = $conn->prepare($select);
         $stmt1->execute([$qid]);
         return $stmt1->fetchAll();
     }
 
 function selectAllUserQuestions($cid)
 {
+    global $conn;
     $select = "	
             select * 
             from questions
             where idcreator=? order by id desc;";
-    $stmt1 = $GLOBALS['conn']->prepare($select);
+    $stmt1 = $conn->prepare($select);
     $stmt1->execute([$cid]);
     return $stmt1->fetchAll();
 }
@@ -112,6 +144,7 @@ function selectAllUserQuestions($cid)
 
 function time_elapsed_string($datetime, $full = false)
 {
+    global $conn;
     $now = new DateTime;
     $ago = new DateTime($datetime);
     $diff = $now->diff($ago);

@@ -11,15 +11,8 @@ if(!$_SESSION["LoggedIn"])
         require_once "Functions/Functions.php";
         include_once("Objects/User.php");
         //DB Info
-        $servername = "localhost";
-        $dbusername = "adopse";
-        $dbpassword = "Adopse@2022";
-        $_SESSION["servername"] = "localhost";
-        $_SESSION["dbusername"] = "adopse";
-        $_SESSION["dbpassword"] = "Adopse@2022";
-        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-              // set the PDO error mode to exception
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        require_once "database.php";
+        $conn = getConnection();
         //User Info
         $user = new User();
         $user->setID($_SESSION["UserId"]);  
@@ -159,7 +152,6 @@ if(!$_SESSION["LoggedIn"])
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../Javascript/Javascript.js"></script>
     <script src="../Javascript/Questions.js"></script>
-    <script src="../Javascript/Create_Test.js"></script>
     <script src="../Javascript/CommonFunctions.js"></script>
     
 </head>
@@ -219,8 +211,7 @@ if(!$_SESSION["LoggedIn"])
 <!--      onclick="swapToQuestions()"-->
      </fieldset>
     </form>
-    <button class="button-group-create-question" onclick="addAnswer()" id="addAnswer" hidden>Add Answer</button>
-    <button class="button-group-create-question" onclick="removeAnswer()" id="removeAnswer" hidden>Remove Answer</button>
+
 </template>
    
 <template id="MultipleChoiceAnwers">
@@ -238,49 +229,60 @@ if(!$_SESSION["LoggedIn"])
 
         <div id="logo">
             <a href="index.php">
-                <img src="../images/UniversityLogo.jpeg" height="100" width="133" /></a>
-        </div>
+                <img src="../images/myQuiz.png" height="100" width="133" /></a>        </div>
 
     </div>
 
 
     <div class="sidenav" id="mySidenav">
-
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a class="active" href="index.php">Home</a>
-        <a href="Questions.php">Questions</a>
-        <a href="Quizes.php">My Quizes</a>
-        <a href="Logout.php" style="margin-top: 50%">Log Out</a>
-
-    </div>
-
-    <div id="content">
-
-        <div id="myQuestionModal" class="modal" >
-            <div class="modal-content" id="question-modal-content">
-
-            </div>
+        <div>
+            <a href="myProfile.php"><img src="../images/profile-icon.jpg" alt="Avatar" id="avatar" ></a>
         </div>
 
         <br>
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
-        <h1>Here you can create your own question(s) or view them.</h1>
-        <div class="btn-group">
-            <button class="button" id="createquestion" onclick="questioncreationForm()" >Create a question</button>
-            <button class="button" id="viewquestion" onclick="viewQuestions()" >View my questions</button>
-        </div>
+        <a href="myProfile.php">Profile</a>
+        <br>
+        <br>
+        <a class="active" href="index.php">Home</a>
+        <br>
+        <br>
+        <a href="Questions.php">Questions</a>
+        <a href="Quizes.php">My Quizes</a>
+        <a href="Logout.php" style="margin-top: 50%">Log Out</a>
+    </div>
 
-    <div id="main">
+    <div id="contentbody">
+        <div id="content">
 
-        <div id="ui">
-        </div>
+            <div id="myQuestionModal" class="modal" >
+                <div class="modal-content" id="question-modal-content">
 
-        <div id="myQuestions" hidden>
+                </div>
+            </div>
+
+            <br>
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+            <h1>Here you can create your own question(s) or view them.</h1>
+            <div class="btn-group">
+                <button class="button" id="createquestion" onclick="questioncreationForm()" >Create a question</button>
+                <button class="button" id="viewquestion" onclick="viewQuestions()" >View my questions</button>
+            </div>
+
+        <div id="main">
+
+            <div id="ui">
+                <button class="button-group-create-question" onclick="addAnswer()" id="addAnswer" hidden>Add Answer</button>
+                <button class="button-group-create-question" onclick="removeAnswer()" id="removeAnswer" hidden>Remove Answer</button>
+            </div>
+
+            <div id="myQuestions" hidden>
+
+            </div>
 
         </div>
 
     </div>
-        
 </div>
 </div>
 </body>

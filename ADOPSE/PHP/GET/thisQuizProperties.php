@@ -17,24 +17,20 @@ require_once "../Functions/Functions.php";
 require_once "../Functions/QuizFunctions.php";
 include_once("../Objects/User.php");
 $id = $_SESSION["UserId"];
-$servername = "localhost";
-$dbusername = "adopse";
-$dbpassword = "Adopse@2022";
+require_once "../database.php";
 $user = new User();
 $user->setID($_SESSION["UserId"]);
 $user->setName($_SESSION["UserN"]);
 $user->setLastName($_SESSION["UserLN"]);
 $user->setEmail($_SESSION["UserE"]);
-$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn = getConnection();
 $q = "SELECT * 
         FROM quizes AS t1 
         JOIN quizattributes t2 
         ON t1.id = t2.quizid 
         WHERE t1.id=?;";
 
-$stmt = $GLOBALS['conn']->prepare($q);
+$stmt = $conn->prepare($q);
 $stmt->execute([$_GET['qid']]);
 $quiz = $stmt->fetch();
 

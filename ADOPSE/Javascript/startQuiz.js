@@ -88,6 +88,7 @@ function fetchQuestion(quid)
                     {
                         hide("preview-grade",500);
                         show("clear",500);
+                        show("submitAllAnswers", 500);
                         show("quizrightnav",500);
                         document.getElementById("clear").innerHTML = this.responseText;
                         var currentquestion = document.getElementById("currentviewingquestion").value;

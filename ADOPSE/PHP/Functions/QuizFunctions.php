@@ -1,4 +1,12 @@
 <?php
+
+    $servername = "localhost";
+    $dbusername = "root";
+    $dbpassword = "adopse";
+    $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
+// set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 function Timed($condition, $time)
     {
         if($condition==0)
@@ -13,8 +21,9 @@ function Timed($condition, $time)
 
 function isTimed($quizid)
     {
+        global $conn;
         $selectTimed = "SELECT timed  FROM quizattributes WHERE quizid=?;";
-        $stmt2 = $GLOBALS['conn']->prepare($selectTimed);
+        $stmt2 = $conn->prepare($selectTimed);
         $stmt2->execute([$quizid]);
         $isTimed = $stmt2->fetch(PDO::FETCH_ASSOC);
         return $isTimed['timed'];
@@ -62,8 +71,9 @@ function ForwardOnly($condition)
 
 function ForwardOnlyCondition($quizid)
     {
+        global $conn;
         $selectTimed = "SELECT forwardonly  FROM quizattributes WHERE quizid=?;";
-        $stmt2 = $GLOBALS['conn']->prepare($selectTimed);
+        $stmt2 = $conn->prepare($selectTimed);
         $stmt2->execute([$quizid]);
         $isFWOnly = $stmt2->fetch(PDO::FETCH_ASSOC);
         $condition=$isFWOnly['forwardonly'];
@@ -146,8 +156,9 @@ function setStartButton($quizid)
 
 function isFavorite($userid, $quizid)
     {
+        global $conn;
         $select = "	SELECT * FROM favorites WHERE userid=? && quizid=?;";
-        $stmt1 = $GLOBALS['conn']->prepare($select);
+        $stmt1 = $conn->prepare($select);
         $stmt1->execute([$userid,$quizid]);
         $result = $stmt1->fetch(PDO::FETCH_COLUMN, 0);
         return $result;
@@ -163,13 +174,14 @@ function setDeletionIcon($quizid)
 
 function userAllowedAttempts($quizid)
     {
+        global $conn;
         $selectattempts = "SELECT attempts FROM quizattributes WHERE quizid=?;";
-        $stmt1 = $GLOBALS['conn']->prepare($selectattempts);
+        $stmt1 = $conn->prepare($selectattempts);
         $stmt1->execute([$quizid]);
         $attemptsallowed = $stmt1->fetch(PDO::FETCH_ASSOC);
 
         $selectattemptsdone = "SELECT COUNT(*) AS attemptsdone FROM attempts WHERE quizid=? AND userid=?;";
-        $stmt2 = $GLOBALS['conn']->prepare($selectattemptsdone);
+        $stmt2 = $conn->prepare($selectattemptsdone);
         $stmt2->execute([$quizid, $_SESSION['UserId']]);
         $attemptsdone = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -191,6 +203,7 @@ function userAllowedAttempts($quizid)
 
 function answerIsSet($attemptid, $userid, $quizid, $questionid, $answerid, $selection)
     {
+        global $conn;
         if(!strcmp($selection, "Multiple"))
             {
                 if(empty($answerid))
@@ -201,7 +214,7 @@ function answerIsSet($attemptid, $userid, $quizid, $questionid, $answerid, $sele
                         AND userid = ? AND 
                         quizid=? AND questionid=?";
 
-                        $stmt1 = $GLOBALS['conn']->prepare($q1);
+                        $stmt1 = $conn->prepare($q1);
                         $stmt1->execute([$attemptid, $userid, $quizid, $questionid]);
                         $result = $stmt1->fetch(PDO::FETCH_ASSOC);
                         return $result;
@@ -214,7 +227,7 @@ function answerIsSet($attemptid, $userid, $quizid, $questionid, $answerid, $sele
                         AND userid = ? AND 
                         quizid=? AND questionid=? AND answerid=?";
 
-                        $stmt1 = $GLOBALS['conn']->prepare($q1);
+                        $stmt1 = $conn->prepare($q1);
                         $stmt1->execute([$attemptid, $userid, $quizid, $questionid, $answerid]);
                         $result = $stmt1->fetch(PDO::FETCH_ASSOC);
                         return $result;
@@ -229,7 +242,7 @@ function answerIsSet($attemptid, $userid, $quizid, $questionid, $answerid, $sele
                     AND userid = ? AND 
                     quizid=? AND questionid=?";
 
-                $stmt1 = $GLOBALS['conn']->prepare($q1);
+                $stmt1 = $conn->prepare($q1);
                 $stmt1->execute([$attemptid, $userid, $quizid, $questionid]);
                 $result = $stmt1->fetch(PDO::FETCH_ASSOC);
                 return $result;
@@ -300,9 +313,10 @@ function returnAnswerType($questionid, $type, $text, $answerid, $attempid, $user
 
 function getQuizQuestions($quizid)
     {
+        global $conn;
         $q2 = "select questionid from quizquestions where quizid= ?";
 
-        $stmt2 = $GLOBALS['conn']->prepare($q2);
+        $stmt2 = $conn->prepare($q2);
         $stmt2->execute([$quizid]);
         $answers = $stmt2->fetchAll(PDO::FETCH_COLUMN, 0);
         return $answers;
@@ -310,9 +324,10 @@ function getQuizQuestions($quizid)
 
 function countQuestions($id)
     {
+        global $conn;
         $q2 = "select count(questionid) as count from quizquestions where quizid= ?";
 
-        $stmt2 = $GLOBALS['conn']->prepare($q2);
+        $stmt2 = $conn->prepare($q2);
         $stmt2->execute([$id]);
         $answers = $stmt2->fetch(PDO::FETCH_ASSOC);
         return $answers['count'];
@@ -320,6 +335,7 @@ function countQuestions($id)
 
 function getPreviousAndNextQuestionIDs($quizid, $currentquestionid)
     {
+        global $conn;
         $questions=getQuizQuestions($quizid);
         $index=array_search((int)$currentquestionid,$questions,true);
 
@@ -339,15 +355,22 @@ function getPreviousAndNextQuestionIDs($quizid, $currentquestionid)
                 $next = $index+1;
                 return array(null,$currentquestionid,$questions[$next]);
             }
+//        else
+//            {
+//                $next = $index+1;
+//
+//                return array(null,$currentquestionid,$questions[$next]);
+//            }
     }
 
 function getQuestion($questionid)
     {
+        global $conn;
         $q1 =   "SELECT *
             FROM questions
             WHERE id=?;";
 
-        $stmt1 = $GLOBALS['conn']->prepare($q1);
+        $stmt1 = $conn->prepare($q1);
         $stmt1->execute([$questionid]);
         $result = $stmt1->fetch(PDO::FETCH_ASSOC);
         return $result;
@@ -355,15 +378,17 @@ function getQuestion($questionid)
 
 function getLastAttemptonQuizID($quizid,$userid)
     {
+        global $conn;
         $q4 = "SELECT MAX(attemptid) AS attemptid FROM attempts WHERE quizid=? AND userid=?";
 
-        $stmt4 = $GLOBALS['conn']->prepare($q4);
+        $stmt4 = $conn->prepare($q4);
         $stmt4->execute([$quizid,$userid]);
         return $stmt4->fetch(PDO::FETCH_ASSOC);
     }
 
 function deleteAnswerUpdate($attemptid, $userid, $quizid, $questionid, $answers)
     {
+        global $conn;
         $intAnswers = array_map(
             function($value) { return (int)$value; },
             $answers
@@ -374,7 +399,7 @@ function deleteAnswerUpdate($attemptid, $userid, $quizid, $questionid, $answers)
                 AND userid = ? AND
                 quizid=? AND questionid=? ;";
 
-                $stmt1 = $GLOBALS['conn']->prepare($q1);
+                $stmt1 = $conn->prepare($q1);
                 $stmt1->execute([$attemptid, $userid, $quizid, $questionid]);
                 $result = $stmt1->fetchAll(PDO::FETCH_COLUMN, 0);
 
@@ -388,7 +413,7 @@ function deleteAnswerUpdate($attemptid, $userid, $quizid, $questionid, $answers)
                         AND userid = ? AND
                         quizid=? AND questionid=? AND answerid=?;";
 
-                        $stmt1 = $GLOBALS['conn']->prepare($q1);
+                        $stmt1 = $conn->prepare($q1);
                         $stmt1->execute([$attemptid, $userid, $quizid, $questionid, $deleteid]);
                     }
 
@@ -396,24 +421,26 @@ function deleteAnswerUpdate($attemptid, $userid, $quizid, $questionid, $answers)
 
 function deleteNulls($attemptid, $userid, $quizid, $questionid)
     {
+        global $conn;
         $q1 = "DELETE FROM attemptanswers 
         WHERE attemptid = ? 
         AND userid = ? AND 
         quizid=? AND questionid=? AND isnull(answerid);";
 
-        $stmt1 = $GLOBALS['conn']->prepare($q1);
+        $stmt1 = $conn->prepare($q1);
         $stmt1->execute([$attemptid, $userid, $quizid, $questionid]);
     }
 
 function answerSubmitted($attemptid, $userid, $quizid, $questionid)
     {
+        global $conn;
         $q1 = "SELECT * 
                 FROM attemptanswers 
                 WHERE attemptid = ? 
                 AND userid = ? AND 
                 quizid=? AND questionid=?";
 
-        $stmt1 = $GLOBALS['conn']->prepare($q1);
+        $stmt1 = $conn->prepare($q1);
         $stmt1->execute([$attemptid, $userid, $quizid, $questionid]);
         $result = $stmt1->fetch(PDO::FETCH_ASSOC);
         return $result;
@@ -421,6 +448,7 @@ function answerSubmitted($attemptid, $userid, $quizid, $questionid)
 
 function gradeQuestion($questionid, $answergivenid, $quizid)
     {
+        global $conn;
         $question = getQuestion($questionid);
         $grade = getCorrectAnswerGrade($quizid);
         $neggrade = getNegGrading($quizid);
@@ -480,11 +508,12 @@ function gradeQuestion($questionid, $answergivenid, $quizid)
 
  function getNegGrading($quizid)
      {
+         global $conn;
          $q1 = "select negativegrading
                 from quizattributes
                 where quizid = ? ;";
 
-         $stmt1 = $GLOBALS['conn']->prepare($q1);
+         $stmt1 = $conn->prepare($q1);
          $stmt1->execute([$quizid]);
          $result = $stmt1->fetch(PDO::FETCH_ASSOC);
          $neg= $result['negativegrading'];
@@ -499,7 +528,7 @@ function gradeQuestion($questionid, $answergivenid, $quizid)
                 from quizattributes
                 where quizid = ? ;";
 
-                 $stmt2 = $GLOBALS['conn']->prepare($q2);
+                 $stmt2 = $conn->prepare($q2);
                  $stmt2->execute([$quizid]);
                  $result2 = $stmt1->fetch(PDO::FETCH_ASSOC);
                  $neggrade= $result2['neggrade'];
@@ -516,6 +545,7 @@ function getCorrectAnswerGrade($quizid)
 
 function getCorrectAnswers($questionid, $selection)
     {
+        global $conn;
         if(!strcmp($selection,"Single"))
             {
                 $q1 = "select a.id as correctAnswerId
@@ -524,7 +554,7 @@ function getCorrectAnswers($questionid, $selection)
                 on q.id = a.parent 
                 where q.id = ? and correct = 1; ";
 
-                $stmt1 = $GLOBALS['conn']->prepare($q1);
+                $stmt1 = $conn->prepare($q1);
                 $stmt1->execute([$questionid]);
                 $result = $stmt1->fetch(PDO::FETCH_ASSOC);
                 return $result;
@@ -537,7 +567,7 @@ function getCorrectAnswers($questionid, $selection)
                 on q.id = a.parent 
                 where q.id = ? and correct = 1; ";
 
-                $stmt1 = $GLOBALS['conn']->prepare($q1);
+                $stmt1 = $conn->prepare($q1);
                 $stmt1->execute([$questionid]);
                 $result = $stmt1->fetchAll();
                 return $result;
@@ -546,11 +576,12 @@ function getCorrectAnswers($questionid, $selection)
 
 function getQuizInfo($quizid)
     {
+        global $conn;
         $q1 =   "SELECT *
                 FROM quizes
                 WHERE id=?;";
 
-        $stmt1 = $GLOBALS['conn']->prepare($q1);
+        $stmt1 = $conn->prepare($q1);
         $stmt1->execute([$quizid]);
         $result = $stmt1->fetch(PDO::FETCH_ASSOC);
         return $result;
@@ -558,11 +589,12 @@ function getQuizInfo($quizid)
 
 function getLastAttemptOnQuiz($quizid,$userid)
     {
+        global $conn;
         $q1 =   "SELECT *
                     FROM attempts
                     WHERE quizid=? AND userid=? ORDER BY attemptid DESC LIMIT 1";
 
-        $stmt1 = $GLOBALS['conn']->prepare($q1);
+        $stmt1 = $conn->prepare($q1);
         $stmt1->execute([$quizid, $userid]);
         $result = $stmt1->fetch(PDO::FETCH_ASSOC);
         return $result;
@@ -570,24 +602,68 @@ function getLastAttemptOnQuiz($quizid,$userid)
 
 function finishLastAttempt($quizid,$userid)
     {
+        global $conn;
         $result1 = getLastAttemptOnQuiz($quizid,$userid);
         $lastAttemptID = $result1['attemptid'];
         $now = date("Y-m-d H:i:s");
         $endAttempt = "UPDATE attempts SET ended=? WHERE attemptid=?";
-        $qu= $GLOBALS['conn']->prepare($endAttempt);
+        $qu= $conn->prepare($endAttempt);
         $qu->execute([$now, $lastAttemptID]);
 
     }
 
 function getLastFiveAttemptsOnQuiz($quizid,$userid)
     {
+        global $conn;
         $q1 =   "SELECT *
                         FROM attempts
                         WHERE quizid=? AND userid=? ORDER BY attemptid DESC LIMIT 5";
 
-        $stmt1 = $GLOBALS['conn']->prepare($q1);
+        $stmt1 = $conn->prepare($q1);
         $stmt1->execute([$quizid, $userid]);
         $result = $stmt1->fetchAll();
         return $result;
+    }
+
+function checkRandomAccessPass($rap)
+    {
+        global $conn;
+        $q1 =   "SELECT *
+                        FROM quizattributes
+                        WHERE randomaccesspassword=? LIMIT 1";
+
+        $stmt1 = $conn>prepare($q1);
+        $stmt1->execute([$rap]);
+        $result = $stmt1->fetch();
+        return $result;
+    }
+
+function generateRandomAccessPass()
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+
+        for ($i = 0; $i < 10; $i++)
+                {
+                    $index = rand(0, strlen($characters) - 1);
+                    $randomString .= $characters[$index];
+                }
+                return $randomString;
+    }
+
+function getQuestionType($string)
+    {
+        if(!strcmp($string, "ToF"))
+            {
+                return "True False";
+            }
+        else if(!strcmp($string, "MCSCA"))
+            {
+                return "Multiple choice with 1 correct answer.";
+            }
+        else if(!strcmp($string, "MCMCA"))
+            {
+                return "Multiple choice with multiple correct answers.";
+            }
     }
 ?>

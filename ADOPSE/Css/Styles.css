@@ -92,7 +92,7 @@ body
     text-align:center; line-height:100%	}
 
 #wrapper	        {background-color: #ffffff;}
-#QuizCF                 {float: left;}
+#QuizCF                 {}
 #myQuestionsList        {float: left; height:800px; overflow-y: scroll; width: 40vw;}
 #questionsAlreadyInTheQuiz {float: right; height:800px; overflow-y: scroll; width: 40vw;}
 #recentquizes {height:800px; overflow-y: scroll;}
@@ -127,13 +127,13 @@ header
     }
 
 /*Arxi CSS gia to signup Form*/
-form {width: 50%;margin: 2%;margin-inline-start: 40%;}
-input[type=email], input[type=password], input[type=id]
+form {margin: 2%; text-align: center;}
+input[type=email], input[type=password], input[type=id], input[type=text]
     {
 /*        width: 300px;*/
         padding: 12px 20px;
         margin: 8px 8px 8px 8px;
-        display: inline-block;
+
         border: 1px solid #ccc;
         box-sizing: border-box;
     }
@@ -259,7 +259,6 @@ legend
 
 .btn-group .button {
     background-color: #0052ff;
-    border: 1px solid green;
     color: white;
     padding: 15px 32px;
     text-align: center;
@@ -269,11 +268,8 @@ legend
     cursor: pointer;
     float: left;
     margin-right: 10px;
-
     height: 100px;
-
-
-
+    border-radius: 30px;
 
 }
 
@@ -371,7 +367,10 @@ legend
     max-width: 75%;
     max-height: 70%;
     text-decoration-color: black;
+    border-radius: 26px;
     background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 122, 89, 0)) no-repeat center;
+
+
     background-size: cover;
     overflow-y: scroll;
 }
@@ -419,18 +418,18 @@ legend
 /*}*/
 
 .toggle-button-cover {
-    display: table-cell;
+
     position: relative;
-    width: 200px;
+
     height: 140px;
     box-sizing: border-box;
+
 }
 
 .button-cover {
     height: 100px;
     margin: 20px;
-    background-color: #fff;
-    box-shadow: 0 10px 20px -8px #c5d6d6;
+
     border-radius: 4px;
 }
 
@@ -453,6 +452,7 @@ legend
     right: 0;
     bottom: 0;
     left: 0;
+    border-radius: 12px;
 }
 
 .button {
@@ -588,7 +588,7 @@ legend
     border: 3px solid #0052ff;
     border-radius: 10px;
 
-    height: 730px;
+    height: 600px;
 
 }
 
@@ -616,7 +616,7 @@ legend
 
 .quizintroinfo {
 
-    height: 510px;
+    height: 428px;
 
     width: 50%;
 
@@ -657,7 +657,7 @@ legend
 {
     float:right;
     width: 28%;
-    height: 90%;
+    height: 100%;
     overflow-wrap: break-word;
     background-color: #0032c447;
     border-radius: 5px;
@@ -668,7 +668,7 @@ legend
 
     float: right;
     width: 100%;
-    height: 10%;
+    height: auto;
     background-color: #b8c6ef;
     position: relative;
     top: 0px;
@@ -819,7 +819,7 @@ legend
 }
 
 .rightnav-progress{
-    margin-top: 30%;
+
 
 }
 
@@ -856,7 +856,7 @@ legend
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #c4c4c4;
+    background: #0032c4;
     border-radius: 20px;
 
 }
@@ -891,7 +891,7 @@ legend
     padding: 10px;*/
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 310px;
+    height: 274px;
 
 
 }
@@ -956,4 +956,139 @@ legend
         text-align: center;
         vertical-align: center;
         padding: 10px 15px;
+    border-collapse: collapse;
     }
+
+.table-bordered tr{
+    line-height: 10px;
+}
+
+.myquizes{
+    text-align: center;
+    display: inline;
+    float: left;
+    padding: 0px 0 22px;
+    width: 100%;
+}
+
+#QuizCFfieldset{
+    text-align: center;
+}
+
+.publish-button{
+    background-color: #0052ff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    clear: both;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 30px;
+}
+
+#UpdateProfileButton{
+    background-color: #0052ff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    clear: both;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 30px;
+}
+
+#main{
+    margin-top: 180px;
+
+}
+
+#ui{
+    text-align: center;
+}
+
+#avatar{
+    width: 100px;
+    border-radius: 50%;
+    margin-left: 18%;
+    margin-bottom: 20px;
+}
+
+#finish{
+    float: right;
+    margin-top: 0px;
+}
+
+#viewmyquizes-table{
+    width: 100%;
+}
+
+.leftbar_content{
+    margin-top: 16%;
+}
+
+#update{
+    background-color: #0052ff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+#removeFromThisQuiz{
+    background-color: #0052ff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+#addtoQuiz{
+    background-color: #0052ff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+#close{
+    cursor: pointer;
+}
+
+#Title,#Topic,#ShortDesc{
+    border-radius: 12px;
+}
+
+#AttemptCount,#QuizTimeLimit{
+    border-radius: 6px;
+}
+
+#BackToConfig,#submitquiz{
+    background-color: #0052ff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+
+

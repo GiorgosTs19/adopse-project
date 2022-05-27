@@ -3,8 +3,6 @@ function questioncreationForm()
         show("viewquestion", 500);
         hide("createquestion", 500);
         hide("myQuestions",500);
-        show("addAnswer", 500);
-        show("removeAnswer", 500);
         showContent();
         var node = document.getElementById("QCF");
         if(main.contains(node))
@@ -29,7 +27,6 @@ function viewQuestions()
                 hide("QCF", 500);
             }
     }
-
 function showContent()
     {
         var main = document.getElementById("ui");

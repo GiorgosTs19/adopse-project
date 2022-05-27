@@ -7,12 +7,8 @@ session_start();
 require_once "Functions/Functions.php";
 require_once "Functions/QuizFunctions.php";
 include_once("Objects/User.php");
-$servername = "localhost";
-$dbusername = "adopse";
-$dbpassword = "Adopse@2022";
-$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once "database.php";
+$conn = getConnection();
 $eError = "This Field is Required";
 $nameErr = $lnameErr = $emailErr = $pass1Err = $pass2Err = $passdmErr = $Success = $genError = "";
 $name = $email = $password2 = $password1 = $lastname = $fpassword = "";
@@ -179,80 +175,95 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updateProfile']))
 
         <div id="logo">
             <a href="index.php">
-                <img src="UniversityLogo.jpeg" height="100" width="133" /></a>
-        </div>
+                <img src="../images/myQuiz.png" height="100" width="133" /></a>        </div>
 
     </div>
 
 
-    <!--<div class="sidenav" id="mySidenav">
 
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a class="active" href="index.php">Home</a>
-            <a href="Questions.php">Questions</a>
-            <a href="Exams.html">Exams</a>
-            <a href="Contact.html">Contact</a>
-            <a href="About.html">About</a>
 
-        </div>-->
+    <div class="sidenav" id="mySidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div>
+            <a href="myProfile.php"><img src="../images/profile-icon.jpg" alt="Avatar" id="avatar" ></a>
+        </div>
 
-    <div id="content">
+        <br>
+        <a href="myProfile.php">Profile</a>
+        <br>
+        <br>
+        <a class="active" href="index.php">Home</a>
+        <br>
+        <br>
+        <a href="Questions.php">Questions</a>
+        <a href="Quizes.php">My Quizes</a>
+        <a href="Logout.php" style="margin-top: 50%">Log Out</a>
+    </div>
+
+    <div id="contentbody" class="myquizes">
+        <div id="content">
+            <span id="CTBurger" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+            <br>
+            <h1>Your profile</h1>
+
+            <div id="content">
 
         <!--        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>-->
 
-        <br>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
-            <fieldset>
-                <legend>My Profile</legend>
-                <br>
-                <br>
-                Name
-                <br>
-                <input type="text" name="name" placeholder = "First Name" value="<?= $user->Name ?>" disabled>
-                <br>
-                <br>
-                Last Name
-                <br>
-                <input type="text" name="lastname" placeholder = "Last Name" value="<?= $user->LastName ?>" disabled>
-                <br>
-                <br>
-                Your Email Address
-                <br>
-                <input type="email" name="email" placeholder = "Enter a valid Email" value="<?=$user->Email?>">
-                <br>
-                <span class="error"><?php echo $emailErr;?></span>
-                <br>
-                Password
-                <br>
-                <input type="password" id="updatePassword1" placeholder="Enter password" name="password1">
-                <br>
-                <span class="error"><?php echo $pass1Err;?></span>
-                <br>
-                Confirm Password
-                <br>
-                <input type="password" id="updatePassword2" placeholder="Enter password" name="password2" disabled>
-                <br>
-                <span class="error"><?php echo $pass2Err;?></span>
-                <br>
-                <span class="error"> <?php echo $passdmErr;?></span>
-                <br>
-                <input id="UpdateProfileButton" name="updateProfile" type="submit" value="Update">
-                <br>
-                <span class="Success"><?php echo $Success;?></span>
-                <br>
-                <br>
-                <br>
-                <span class="error"> <?php echo $genError;?></span>
-                <!-- comment </br>
-                </br>
-                </br>
-                <span class="error"> <?php echo $temp2;?></span>
-                </br>
-                <span class="error"> <?php echo $temp3;?></span>-->
+            <br>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
+                <fieldset>
+                    <legend>Edit your profile</legend>
+                    <br>
+                    <br>
+                    Name
+                    <br>
+                    <input type="text" name="name" placeholder = "First Name" value="<?= $user->Name ?>" disabled>
+                    <br>
+                    <br>
+                    Last Name
+                    <br>
+                    <input type="text" name="lastname" placeholder = "Last Name" value="<?= $user->LastName ?>" disabled>
+                    <br>
+                    <br>
+                    Your Email Address
+                    <br>
+                    <input type="email" name="email" placeholder = "Enter a valid Email" value="<?=$user->Email?>">
+                    <br>
+                    <span class="error"><?php echo $emailErr;?></span>
+                    <br>
+                    Password
+                    <br>
+                    <input type="password" id="updatePassword1" placeholder="Enter password" name="password1">
+                    <br>
+                    <span class="error"><?php echo $pass1Err;?></span>
+                    <br>
+                    Confirm Password
+                    <br>
+                    <input type="password" id="updatePassword2" placeholder="Enter password" name="password2" disabled>
+                    <br>
+                    <span class="error"><?php echo $pass2Err;?></span>
+                    <br>
+                    <span class="error"> <?php echo $passdmErr;?></span>
+                    <br>
+                    <input id="UpdateProfileButton" name="updateProfile" type="submit" value="Update">
+                    <br>
+                    <span class="Success"><?php echo $Success;?></span>
+                    <br>
+                    <br>
+                    <br>
+                    <span class="error"> <?php echo $genError;?></span>
+                    <!-- comment </br>
+                    </br>
+                    </br>
+                    <span class="error"> <?php echo $temp2;?></span>
+                    </br>
+                    <span class="error"> <?php echo $temp3;?></span>-->
 
-            </fieldset>
-        </form>
+                </fieldset>
+            </form>
     </div>
+        </div>
 </div>
 
 </body>

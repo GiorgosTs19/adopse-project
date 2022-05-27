@@ -9,6 +9,7 @@ if(!$_SESSION["LoggedIn"])
 require_once "Functions/Functions.php";
 require_once "Functions/QuizFunctions.php";
 include_once("Objects/User.php");
+require_once "database.php";
 //User Initialization
 $user = new User();
 $user->setID($_SESSION["UserId"]);
@@ -20,9 +21,7 @@ $id = $_SESSION["UserId"];
 $servername = "localhost";
 $dbusername = "adopse";
 $dbpassword = "Adopse@2022";
-$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn = getConnection();
 
 
 if (isset($_GET['sqid']))
@@ -75,7 +74,7 @@ if(isset($_POST['startquizid']))
     <div id="top">
         <div id="logo">
             <a href="index.php">
-            <img src="../images/UniversityLogo.jpeg" height="100" width="133" /></a>
+                <img src="../images/myQuiz.png" height="100" width="133" /></a>
         </div>
     </div>
 

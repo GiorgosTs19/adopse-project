@@ -25,6 +25,8 @@ function openNav() {
     document.getElementById("contentbody").style.filter = 'blur(8px)';
 
 
+
+
 }
 
 

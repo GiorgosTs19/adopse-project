@@ -13,17 +13,13 @@ require_once "../Functions/Functions.php";
 require_once "../Functions/QuizFunctions.php";
 include_once("../Objects/User.php");
 $id = $_SESSION["UserId"];
-$servername = "localhost";
-$dbusername = "adopse";
-$dbpassword = "Adopse@2022";
+require_once "../database.php";
 $user = new User();
 $user->setID($_SESSION["UserId"]);
 $user->setName($_SESSION["UserN"]);
 $user->setLastName($_SESSION["UserLN"]);
 $user->setEmail($_SESSION["UserE"]);
-$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn = getConnection();
 
 if (isset($_GET['quid']))
     {
@@ -32,7 +28,7 @@ if (isset($_GET['quid']))
         $q1 = "SELECT * FROM questions 
         WHERE id= ?";
 
-        $stmt1 = $GLOBALS['conn']->prepare($q1);
+        $stmt1 = $conn->prepare($q1);
         $stmt1->execute([$quid]);
         $question = $stmt1->fetch(PDO::FETCH_ASSOC);
 
@@ -42,7 +38,7 @@ if (isset($_GET['quid']))
 
         $q2 = "select * from answers where parent= ?";
 
-        $stmt2 = $GLOBALS['conn']->prepare($q2);
+        $stmt2 = $conn->prepare($q2);
         $stmt2->execute([$quid]);
         $answers = $stmt2->fetchAll();
 

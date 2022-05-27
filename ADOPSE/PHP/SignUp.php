@@ -5,12 +5,8 @@ session_start();
 <html>
     <?php
         require_once "Functions/Functions.php";
-        $servername = "localhost";
-        $dbusername = "adopse";
-        $dbpassword = "Adopse@2022";
-            $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-              // set the PDO error mode to exception
-              $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    require_once "database.php";
+            $conn = getConnection();
             $eError = "This Field is Required";
             $nameErr = $lnameErr = $emailErr = $pass1Err = $pass2Err = $passdmErr = $Success = $genError = "";
             $name = $email = $password2 = $password1 = $lastname = $fpassword = "";
@@ -179,7 +175,7 @@ session_start();
 
         <div id="logo">
             <a href="index.php">
-                <img src="UniversityLogo.jpeg" height="100" width="133" /></a>
+                <img src="../images/myQuiz.png" height="100" width="133" /></a>
         </div>
 
     </div>

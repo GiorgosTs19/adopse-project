@@ -10,12 +10,8 @@ if(!$_SESSION["LoggedIn"])
 require_once "../Functions/Functions.php";
 require_once "../Functions/QuizFunctions.php";
 include_once("../Objects/User.php");
-$servername = "localhost";
-$dbusername = "adopse";
-$dbpassword = "Adopse@2022";
-$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once "../database.php";
+$conn =getConnection();
 //User Initialization
 $user = new User();
 $user->setID($_SESSION["UserId"]);
@@ -28,7 +24,7 @@ $user->setEmail($_SESSION["UserE"]);
                 $q1 = "SELECT * FROM quizquestions 
                 WHERE quizid = ?";
 
-                $stmt1 = $GLOBALS['conn']->prepare($q1);
+                $stmt1 = $conn->prepare($q1);
                 $stmt1->execute([$_GET['id']]);
                 $question = $stmt1->fetch(PDO::FETCH_ASSOC);
 
@@ -37,7 +33,7 @@ $user->setEmail($_SESSION["UserE"]);
                 ON q.id = qa.quizid 
                 WHERE id = ?";
 
-                $stmt = $GLOBALS['conn']->prepare($q);
+                $stmt = $conn->prepare($q);
                 $stmt->execute([$_GET['id']]);
                 $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -61,8 +57,7 @@ $user->setEmail($_SESSION["UserE"]);
                 if ($quiz['timed'] == 1)
                     {
                         echo '<input type="number" id="starttimer" value="1" hidden>';
-                        echo '<p style="color: red">Warning! The timer will begin the moment you press "Start Quiz", </p>';
-                        echo '<p style="color: red">and it cannot reset or be paused.</p>';
+                        echo '<p style="color: red">Warning! The timer will begin the moment you press "Start Quiz" and it cannot reset or be paused. </p>';
                     }
                 else
                     {
@@ -89,7 +84,7 @@ $user->setEmail($_SESSION["UserE"]);
                 if(!isTimed($_SESSION['cqid'])==0)
                     {
                         echo        '<div class="quizrightnavbanner" id="quizrightnavbanner">';
-                        echo    '<span><img src="../images/timer.png" style="width: 70px; height: 70px; float: left; border: none;"><p id="timer"></p></span>';
+                        echo    '<span><img src="../images/timer.png" style="width: 70px; height: 70px; float: left; border: none;"><p id="timer" style="margin: 11px 0 0 0"></p></span>';
                         echo        '</div>';
                     }
                 echo        '<div class="rightnav-progress">';
@@ -97,7 +92,7 @@ $user->setEmail($_SESSION["UserE"]);
 //                echo            '<div id="qnav" class="grid-container grid-container--fill"></div>';
                 echo    '<div id="previewNavigation" class= "grid-preview    grid-preview--fill"></div>';
                 echo        '</div>';
-                echo        '<button type="submit" form="submitAnswer" id="submitAllAnswers" class="submit" name="submit" onclick="previewAnswersSubmitted()">Submit all</button>';
+                echo        '<button type="submit" form="submitAnswer" id="submitAllAnswers" class="submit" name="submit" onclick="previewAnswersSubmitted()">Preview Answers</button>';
                 echo    '<button id="finish" class="submit" onclick="finishAttempt()">Finish Attempt</button>';
                 echo       '</div>';
                 echo    '</div>';

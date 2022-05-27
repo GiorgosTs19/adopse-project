@@ -12,18 +12,14 @@ include_once("../Objects/Answer.php");
 require_once "../Functions/Functions.php";
 require_once "../Functions/QuizFunctions.php";
 include_once("../Objects/User.php");
+require_once "../database.php";
 $id = $_SESSION["UserId"];
-$servername = "localhost";
-$dbusername = "adopse";
-$dbpassword = "Adopse@2022";
 $user = new User();
 $user->setID($_SESSION["UserId"]);
 $user->setName($_SESSION["UserN"]);
 $user->setLastName($_SESSION["UserLN"]);
 $user->setEmail($_SESSION["UserE"]);
-$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn = getConnection();
 
     if(isset($_POST['answer']))
         {

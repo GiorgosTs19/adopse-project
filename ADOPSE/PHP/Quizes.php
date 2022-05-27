@@ -10,12 +10,9 @@ if(!$_SESSION["LoggedIn"])
     <?php
         require_once "Functions/Functions.php";
         include_once("Objects/User.php");
-        $servername = "localhost";
-        $dbusername = "adopse";
-        $dbpassword = "Adopse@2022";
-        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-          // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        require_once "database.php";
+        $conn = getConnection();
+        $GLOBALS['conn']=$conn;
         //User Initialization
         $user = new User();
         $user->setID($_SESSION["UserId"]);  
@@ -197,6 +194,7 @@ if(!$_SESSION["LoggedIn"])
                         $quizid = selectMaxFromCreator($user->ID,"quizes");
 //                       try
 //                            {
+//                        $randomaccess = generateRandomAccessPass();
                         $quizattq = "INSERT INTO quizattributes (quizid, timed, multipleattempts, shuffled, "
                             . "forwardonly, negativegrading, passonly, password, attempts, neggrade,timelimit) "
                             . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -267,25 +265,40 @@ if(!$_SESSION["LoggedIn"])
         
         <div id="wrapper">   
             <div id="top">
-               <div id="logo">
-                   <a href="index.php">
-                       <img src="../images/UniversityLogo.jpeg" height="100" width="133" /></a>
-               </div>
+                <div id="logo">
+                    <a href="index.php">
+                        <img src="../images/myQuiz.png" height="100" width="133" /></a>
+                </div>
                 
            </div>
-            <span id="CTBurger" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+
             <br>
             <br>
             
 <!--            Burger Navigation-->
-           <div class="sidenav" id="mySidenav">
-               <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-               <a class="active" href="index.php">Home</a>
-               <a href="Questions.php">Questions</a>
-               <a href="Quizes.php">Exams</a>
-               <a href="Logout.php" style="margin-top: 50%">Log Out</a>
-           </div>
+            <div class="sidenav" id="mySidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <div>
+                    <a href="myProfile.php"><img src="../images/profile-icon.jpg" alt="Avatar" id="avatar" ></a>
+                </div>
 
+                <br>
+                <a href="myProfile.php">Profile</a>
+                <br>
+                <br>
+                <a class="active" href="index.php">Home</a>
+                <br>
+                <br>
+                <a href="Questions.php">Questions</a>
+                <a href="Quizes.php">My Quizes</a>
+                <a href="Logout.php" style="margin-top: 50%">Log Out</a>
+            </div>
+
+            <div id="contentbody" class="myquizes">
+                <div id="content">
+                    <span id="CTBurger" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+                    <br>
+                    <h1>Quiz Section</h1>
             <div class="btn-group">
                 <button class="button" id="createquiz" onclick="quizCreationForm()" >Create a Quiz</button>
                 <button class="button" id="viewquizes" onclick="viewQuizes()" >View my Quizes</button>
@@ -326,7 +339,7 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to Shuffle the Questions-->
                    <label for="Shuffled" >Shuffle Questions</label>
                    <input type="checkbox" id="Shuffle" name="Shuffled" 
-                       value="Shuffled"> 
+                       value="Shuffled" disabled>
                    <br>
                    <br>
 <!--                   Option to allow multiple attempts-->
@@ -351,13 +364,13 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to make your Quiz be "Forward Only"-->
                    <label for="ForwardOnly">Do you want your Quiz to be "Forward Only" ?</label>
                    <input type="checkbox" id="ForwardOnly" name="ForwardOnly" 
-                       value="ForwardOnly"> 
+                       value="ForwardOnly" disabled>
                    <br>
                    <br>
 <!--                   Option to make your Quiz have negative grading-->
                    <label for="NegGrading">Do you want your Quiz to have negative grading?</label>
                    <input type="checkbox" id="NegGrading" name="NegGrading" 
-                       value="NegGrading" onclick="NegativeGrading()">       
+                       value="NegGrading" onclick="NegativeGrading()" disabled>
                    <label for="NegGrade" id="NegGradeLabel" hidden>Correct Answer's Grade / </label>
                    <input type='number' id="NegGrade" name='NegGrade' min="0" oninput="this.value = Math.abs(this.value)" hidden>
                    <br>
@@ -367,7 +380,7 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to make your Quiz be accessible only with a password-->
                    <label for="PassOnly">Make your Quiz accessible only with a password?</label>
                    <input type="checkbox" id="PassOnly" name="PassOnly" 
-                       value="PassOnly" onclick="QuizAccessPassword()">
+                       value="PassOnly" onclick="QuizAccessPassword()" disabled>
                    <label for="QuizPassword" id="QuizPasswordLabel" hidden>Password : </label>
                    <input type='text' id="QuizPassword" name='QuizPassword' hidden>
                    <br>
@@ -379,7 +392,7 @@ if(!$_SESSION["LoggedIn"])
                    <div class="toggle-button-cover">
                        <div class="button-cover">
                            <div class="button b2" id="button-11">
-                               <input type="checkbox" class="checkbox" name="Viewable" />
+                               <input type="checkbox" class="checkbox" name="Viewable" >
                                <div class="knobs">
                                    <span></span>
                                    </div>
@@ -392,7 +405,7 @@ if(!$_SESSION["LoggedIn"])
                    <div id="answersdiv"> 
                    </div>
                    <br>
-                   <input id="publish" type="submit" name="action" value="Publish">
+                   <input class="publish-button"id="publish" type="submit" name="action" value="Publish">
                    <input id="update" type="submit" name="action" onclick="backToQuizQuestions()" value="Update" hidden>
                    <input type='text' id="buttonpressed" name='buttonpressed' value="Publish" hidden>
                    <br>        
@@ -402,7 +415,7 @@ if(!$_SESSION["LoggedIn"])
             <button type="button" id='BackToConfig' onclick="backToConfig()" hidden>Back to Quiz Configurations</button>
 <!--        <button type="button" id='BackToQuestions' onclick="backToQuizQuestions()"  hidden>Back to Quiz Questions</button>-->
         <button id="submitquiz" onClick="window.location.reload();" hidden>Submit Quiz</button>
-        </div>
+
 
                 <div id="myQuestionsList" hidden>
                 </div>
@@ -410,16 +423,8 @@ if(!$_SESSION["LoggedIn"])
                 <div id="questionsAlreadyInTheQuiz" hidden>
                 </div>
 
-            <div class="container" id="myQuizesContainer" hidden>
-                <div class="row">
-                    <div class=" col-sm-12 col-md-6 col-lg-6">
-                        <div class="row">
-                            <div class="leftbar_content" id="leftbar_content">
-                                <h2>My Quizes</h2>
-                                <div id="myQuizes">
-                                </div>
-                            </div>
-                        </div>
+                <div class="leftbar_content"  id="myQuizesContainer" hidden>
+                    <div id="myQuizes">
                     </div>
                 </div>
             </div>

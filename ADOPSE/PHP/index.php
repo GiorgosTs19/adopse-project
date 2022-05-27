@@ -9,6 +9,7 @@ if(!$_SESSION["LoggedIn"])
     require_once "Functions/Functions.php";
     require_once "Functions/QuizFunctions.php";
     include_once("Objects/User.php");
+    require_once "database.php";
     //User Initialization
     $user = new User();
     $user->setID($_SESSION["UserId"]);  
@@ -52,7 +53,7 @@ if(!$_SESSION["LoggedIn"])
         <div id="top">
             <div id="logo">
                 <a href="index.php">
-                    <img src="../images/UniversityLogo.jpeg" height="100" width="133" /></a>
+                    <img src="../images/myQuiz.png" height="100" width="133" /></a>
             </div>
         </div>
 
@@ -72,7 +73,7 @@ if(!$_SESSION["LoggedIn"])
             </div>
 
             <br>
-            <a href="">Profile</a>
+            <a href="myProfile.php">Profile</a>
             <br>
             <br>
             <a class="active" href="index.php">Home</a>
