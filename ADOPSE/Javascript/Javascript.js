@@ -22,16 +22,21 @@ for (var i = 0; i < btns.length; i++) {
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
-    document.body.style.backgroundColor = "#5F5F5F";
+    document.getElementById("contentbody").style.filter = 'blur(8px)';
+
+
 
 
 }
+
 
 /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
-    document.body.style.backgroundColor = "#B9B9B9";
+    document.getElementById("contentbody").style.filter = 'blur(0px)';
 }
+
+
 
 
 function hide(id, milis) 
@@ -53,19 +58,3 @@ var script = document.createElement('script');
 script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
 document.getElementsByTagName('head')[0].appendChild(script);
 
-
-/*document.getElementById("content").innerHTML += "<div id=\"main\"><p>Select a general category for your exam.</p>" +
-    "             <form onsubmit=\"CreateExam()\">\n" +
-    "                <label for=\"subject\">Choose a subject:</label>\n" +
-    "                <select name=\"subject\" id=\"subject\">\n" +
-    "                    <option value=\"computerscience\">Computer - Science</option>\n" +
-    "                    <option value=\"history\">History</option>\n" +
-    "                    <option value=\"maths\">Maths</option>\n" +
-    "                    <option value=\"geography\">Geography</option>\n" +
-    "                </select>\n" +
-    "                <br><br>\n" +
-    "                <input type=\"submit\" value=\"Submit\">\n" +
-    "            </form>" +
-    "</div>";*/
-
-//Questions Segment

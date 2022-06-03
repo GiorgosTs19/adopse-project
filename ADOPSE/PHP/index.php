@@ -1,9 +1,15 @@
 <?php
 session_start();
+if(!$_SESSION["LoggedIn"])
+    {
+        header("Location: http://localhost/ADOPSE/PHP/Login.php");
+    }
 ?>
 <?php 
-    require_once "Functions.php";
+    require_once "Functions/Functions.php";
+    require_once "Functions/QuizFunctions.php";
     include_once("Objects/User.php");
+    require_once "database.php";
     //User Initialization
     $user = new User();
     $user->setID($_SESSION["UserId"]);  
@@ -19,7 +25,11 @@ session_start();
     <title>Home</title>
     <link href="../Css/Styles.css" rel="stylesheet" type="text/css" media="screen"/>
     <link href="../Css/StylesIndex.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="../Css/Answers.scss" rel="stylesheet" type="text/css" media="screen"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../Javascript/Javascript.js"></script>
+    <script src="../Javascript/indexJavascript.js"></script>
+    <script src="../Javascript/CommonFunctions.js"></script>
 
     <style>
     .auto-style3 {
@@ -38,41 +48,45 @@ session_start();
 
 </head>
 <body>
-
-
-
     <div id="wrapper">
 
         <div id="top">
-
-
             <div id="logo">
-                <a href="index.html">
-                    <img src="UniversityLogo.jpeg" height="100" width="133" /></a>
+                <a href="index.php">
+                    <img src="../images/myQuiz.png" height="100" width="133" /></a>
+            </div>
+        </div>
+
+        <!-- Trigger/Open The Modal -->
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal" >
+            <div class="modal-content" id="modal-content">
+
             </div>
         </div>
 
         <div class="sidenav" id="mySidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <img src="images/profile-icon.jpg" alt="Avatar" id="avatar">
-            <br>
-            <a href="">Profile</a>
-            <br>
-            <br>
-            <a class="active" href="index.html">Home</a>
-            <br>
-            <br>
+            <div>
+                <a href="myProfile.php"><img src="../images/profile-icon.jpg" alt="Avatar" id="avatar" ></a>
+            </div>
 
+            <br>
+            <a href="myProfile.php">Profile</a>
+            <br>
+            <br>
+            <a class="active" href="index.php">Home</a>
+            <br>
+            <br>
             <a href="Questions.php">Questions</a>
-            <a href="Exams.html">Exams</a>
-            <a href="Contact.html">Contact</a>
-            <a href="About.html">About</a>
-            <a href="" style="margin-top: 50%">Log Out</a>
+            <a href="Quizes.php">My Quizes</a>
+            <a href="Logout.php" style="margin-top: 50%">Log Out</a>
         </div>
 
         <div id="content">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
-        <h1>Home Page</h1>
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+            <h1>Home Page</h1>
         </div>
 
         <section id="contentbody">
@@ -80,63 +94,9 @@ session_start();
                 <div class="row">
                     <div class=" col-sm-12 col-md-6 col-lg-6">
                         <div class="row">
-                            <div class="leftbar_content">
-                                <h2>Recent Exams</h2>
-                                <div class="single_stuff wow fadeInDown">
-                                    <div class="imagewrap">
-
-                                    <div class="single_stuff_img">
-                                        <a href="pages/single.html">
-                                        <img src="images/questionmarks.png">
-                                        </a>
-                                    </div>
-                                        <input type="button" class="button1" value="Run Exam" />
-                                        <input type="button" class="button2" value="Options" />
-
-                                    </div>
-                                    <div class="single_stuff_article">
-                                        <div class="single_sarticle_inner"> <a class="stuff_category" href="#">Technology</a>
-                                            <div class="stuff_article_inner"> <span class="stuff_date">Nov <strong>17</strong></span>
-                                                <h2><a href="pages/single.html">Duis quis erat non nunc fringilla</a></h2>
-                                                <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus,
-                                                    egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna.
-                                                    Morbi dui lectus, pharetra nec elementum eget, vulputate ut nisi.
-                                                    Aliquam accumsan, nulla sed feugiat vehicula...
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single_stuff wow fadeInDown">
-                                    <div class="single_stuff_img"> <a href="#"><img src="images/questionmarks.png" alt=""></a> </div>
-                                    <div class="single_stuff_article">
-                                        <div class="single_sarticle_inner"> <a class="stuff_category" href="#">Technology</a>
-                                            <div class="stuff_article_inner"> <span class="stuff_date">Nov <strong>17</strong></span>
-                                                <h2><a href="#">Duis quis erat non nunc fringilla</a></h2>
-                                                <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulputate ut nisi. Aliquam accumsan, nulla sed feugiat vehicula...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single_stuff wow fadeInDown">
-                                    <div class="single_stuff_img"> <a href="#"><img src="images/questionmarks.png" alt=""></a> </div>
-                                    <div class="single_stuff_article">
-                                        <div class="single_sarticle_inner"> <a class="stuff_category" href="#">Technology</a>
-                                            <div class="stuff_article_inner"> <span class="stuff_date">Nov <strong>17</strong></span>
-                                                <h2><a href="#">Duis quis erat non nunc fringilla</a></h2>
-                                                <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulputate ut nisi. Aliquam accumsan, nulla sed feugiat vehicula...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="stuffpost_paginatinonarea wow slideInLeft">
-                                    <ul class="newstuff_pagnav">
-                                        <li><a class="active_page" href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                    </ul>
+                            <div class="leftbar_content" id="leftbar_content">
+                                <h2>Recent Quizes</h2>
+                                <div id="recentquizes">
                                 </div>
                             </div>
                         </div>
@@ -145,48 +105,7 @@ session_start();
                         <div class="row">
                             <div class="rightbar_content">
                                 <h2>Random exams</h2>
-                                <div class="single_stuff wow fadeInDown">
-                                    <div class="single_stuff_img"> <a href="pages/single.html"><img src="images/questionmarks.png" alt=""></a> </div>
-                                    <div class="single_stuff_article">
-                                        <div class="single_sarticle_inner"> <a class="stuff_category" href="#">Technology</a>
-                                            <div class="stuff_article_inner"> <span class="stuff_date">Nov <strong>17</strong></span>
-                                                <h2><a href="pages/single.html">Duis quis erat non nunc fringilla</a></h2>
-                                                <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulputate ut nisi. Aliquam accumsan, nulla sed feugiat vehicula...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single_stuff wow fadeInDown">
-                                    <div class="single_stuff_img"> <a href="#"><img src="images/questionmarks.png" alt=""></a> </div>
-                                    <div class="single_stuff_article">
-                                        <div class="single_sarticle_inner"> <a class="stuff_category" href="#">Technology</a>
-                                            <div class="stuff_article_inner"> <span class="stuff_date">Nov <strong>17</strong></span>
-                                                <h2><a href="#">Duis quis erat non nunc fringilla</a></h2>
-                                                <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulputate ut nisi. Aliquam accumsan, nulla sed feugiat vehicula...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single_stuff wow fadeInDown">
-                                    <div class="single_stuff_img"> <a href="#"><img src="images/questionmarks.png" alt=""></a> </div>
-                                    <div class="single_stuff_article">
-                                        <div class="single_sarticle_inner"> <a class="stuff_category" href="#">Technology</a>
-                                            <div class="stuff_article_inner"> <span class="stuff_date">Nov <strong>17</strong></span>
-                                                <h2><a href="#">Duis quis erat non nunc fringilla</a></h2>
-                                                <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulputate ut nisi. Aliquam accumsan, nulla sed feugiat vehicula...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="stuffpost_paginatinonarea wow slideInLeft">
-                                    <ul class="newstuff_pagnav">
-                                        <li><a class="active_page" href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                    </ul>
-                                </div>
+                                <h1> This section is currently not available.</h1>
                             </div>
                         </div>
                     </div>

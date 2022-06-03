@@ -1,20 +1,26 @@
 <?php
 session_start();
+if($_SESSION["LoggedIn"])
+{
+    header("Location: http://localhost/ADOPSE/PHP/index.php");
+}
 ?>
 <?php 
-        require_once "Functions.php";
+        require_once "Functions/Functions.php";
         include_once("Objects/User.php");
-        $servername = "localhost";
-        $dbusername = "adopse";
-        $dbpassword = "Adopse@2022";
-        $_SESSION["servername"] = "localhost";
-        $_SESSION["dbusername"] = "adopse";
-        $_SESSION["dbpassword"] = "Adopse@2022";
-        
-        
-        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-              // set the PDO error mode to exception
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        include_once("database.php");
+//        $servername = "localhost";
+//        $dbusername = "adopse";
+//        $dbpassword = "Adopse@2022";
+//        $_SESSION["servername"] = "localhost";
+//        $_SESSION["dbusername"] = "adopse";
+//        $_SESSION["dbpassword"] = "Adopse@2022";
+//
+//
+//        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
+//              // set the PDO error mode to exception
+//            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $conn = getConnection();
             $eError = "This Field is Required";
             $emailErr =$passErr = $Success = $genError = "";
             $email = $password = "";
@@ -22,10 +28,11 @@ session_start();
             $temp2 = $temp3 = "";
             function setUser($email)
                 {
+                    $conn = getConnection();
                     try
                         {                           
                             $q = "SELECT userid, name, lname, email FROM users WHERE email=? LIMIT 1";
-                            $stmt = $GLOBALS['conn']->prepare($q);
+                            $stmt = $conn->prepare($q);
                             $stmt->execute([$email]);
                             $results = $stmt->fetch(PDO::FETCH_ASSOC);
                             $_SESSION["UserN"] = $results["name"];
@@ -68,8 +75,9 @@ session_start();
                                                     $passok = true;
                                                     //$passErr = "";
                                                     setUser($_POST["email"]);
+                                                    $_SESSION["LoggedIn"] = true;
                                                     $Success = "You have successfully signed in";
-                                                    header("Location: http://localhost/ADOPSE/PHP/Create_Test.php");
+                                                    header("Location: http://localhost/ADOPSE/PHP/index.php");
                                                     exit(); 
                                                 }
                                             else
@@ -91,6 +99,7 @@ session_start();
                 }       
 ?>
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -119,7 +128,7 @@ session_start();
 
         <div id="logo">
             <a href="index.php">
-                <img src="UniversityLogo.jpeg" height="100" width="133" /></a>
+                <img src="../images/myQuiz.png" height="100" width="133" /></a>
         </div>
 
     </div>

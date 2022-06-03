@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <?php
-// Start the session
 session_start();
+if(!$_SESSION["LoggedIn"])
+{
+    header("Location: http://localhost/ADOPSE/PHP/Login.php");
+}
 ?>
 <html lang="en">
     <?php
-        require_once "Functions.php";
+        require_once "Functions/Functions.php";
         include_once("Objects/User.php");
         //DB Info
-        $servername = "localhost";
-        $dbusername = "adopse";
-        $dbpassword = "Adopse@2022";
-        $_SESSION["servername"] = "localhost";
-        $_SESSION["dbusername"] = "adopse";
-        $_SESSION["dbpassword"] = "Adopse@2022";
-        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-              // set the PDO error mode to exception
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        require_once "database.php";
+        $conn = getConnection();
         //User Info
         $user = new User();
         $user->setID($_SESSION["UserId"]);  
@@ -155,30 +151,20 @@ session_start();
     <link href="../Css/Styles.css" rel="stylesheet" type="text/css" media="screen"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../Javascript/Javascript.js"></script>
-
-    <style>
-        .auto-style3 
-            {
-                border-style: solid;
-                border-width: 2px;
-            }
-
-        .auto-style1 
-            {
-                text-decoration: none;
-            }
-        .auto-style2 
-            {
-                text-align: center;
-            }
-        
-    </style>
+    <script src="../Javascript/Questions.js"></script>
+    <script src="../Javascript/CommonFunctions.js"></script>
     
 </head>
-
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 <body>
     
 <template id="QuestionCreationForm">
+
+
     <form id="QCF" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
      <fieldset >
         <input type="radio" id="multiplechoiceSA" name="QuestionType" 
@@ -209,15 +195,23 @@ session_start();
         <input required type="text" id="QuestionTopic" name="QuestionTopic" 
             value="<?php echo htmlspecialchars($_POST['TestRef'] ?? '', ENT_QUOTES); ?>"><br><br>
         <div id="answersdiv">
-        <input type='number' id="answercount" name='answercount' >
-        <input type='number' id="correctanswerid" name='correctanswerid' >      
-            
-        </div>
+        <input type='number' id="answercount" name='answercount' hidden>
+        <input type='number' id="correctanswerid" name='correctanswerid' hidden>
         <br>
-        <input type="submit" value="Next" >
+        <br>
+        </div>
+         <br>
+         <br>
+         <br>
+         <input class="button-group-create-question" id="next" type="submit" value="Create Question" style="float: right;margin-right:250px " >
+
+         <span id="success" class="Success"><?php echo $Success;?></span>
+         <br>
+         <span id="error" class="error"> <?php echo $genError;?></span>
 <!--      onclick="swapToQuestions()"-->
      </fieldset>
     </form>
+
 </template>
    
 <template id="MultipleChoiceAnwers">
@@ -235,55 +229,60 @@ session_start();
 
         <div id="logo">
             <a href="index.php">
-                <img src="UniversityLogo.jpeg" height="100" width="133" /></a>
-        </div>
+                <img src="../images/myQuiz.png" height="100" width="133" /></a>        </div>
 
     </div>
 
 
     <div class="sidenav" id="mySidenav">
-
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div>
+            <a href="myProfile.php"><img src="../images/profile-icon.jpg" alt="Avatar" id="avatar" ></a>
+        </div>
+
+        <br>
+        <a href="myProfile.php">Profile</a>
+        <br>
+        <br>
         <a class="active" href="index.php">Home</a>
+        <br>
+        <br>
         <a href="Questions.php">Questions</a>
-        <a href="Exams.html">Exams</a>
-        <a href="Contact.html">Contact</a>
-        <a href="About.html">About</a>
-
+        <a href="Quizes.php">My Quizes</a>
+        <a href="Logout.php" style="margin-top: 50%">Log Out</a>
     </div>
 
-    <div id="content">
+    <div id="contentbody">
+        <div id="content">
 
-        <br>
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
-        <h1>Questions Section</h1>
-        <p id="contenttext">Here you can create your own question(s) or view them.</p>
-        <br>
+            <div id="myQuestionModal" class="modal" >
+                <div class="modal-content" id="question-modal-content">
 
-
-    <div id="main">
-            <div class="btn-group">
-                <button class="button" id="createquestion" onclick="questioncreationForm()">Create a question</button>
-                <button class="button" id="viewquestion" onclick="viewQuestions()">View my questions</button>
+                </div>
             </div>
-        <div id="ui">
-            
-         </div>
-        
-        <span class="Success"><?php echo $Success;?></span>
-        <br>
-        <span class="error"> <?php echo $genError;?></span>
-        
-        
-        <span id='radio1'></span>
-        <br>
-        <span id='radio2'></span>
-        <br>
-        <span id='radio3'></span>
-        <br>
-        <span id='radio4'></span>
+
+            <br>
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+            <h1>Here you can create your own question(s) or view them.</h1>
+            <div class="btn-group">
+                <button class="button" id="createquestion" onclick="questioncreationForm()" >Create a question</button>
+                <button class="button" id="viewquestion" onclick="viewQuestions()" >View my questions</button>
+            </div>
+
+        <div id="main">
+
+            <div id="ui">
+                <button class="button-group-create-question" onclick="addAnswer()" id="addAnswer" hidden>Add Answer</button>
+                <button class="button-group-create-question" onclick="removeAnswer()" id="removeAnswer" hidden>Remove Answer</button>
+            </div>
+
+            <div id="myQuestions" hidden>
+
+            </div>
+
+        </div>
+
     </div>
-        
 </div>
 </div>
 </body>
