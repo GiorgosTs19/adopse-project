@@ -1,9 +1,9 @@
 <?php
 class DatabaseConnection
 {
-    private $servername = "--";
-    private $dbusername = "--";
-    private $dbpassword = "--";
+    private $servername = "localhost";
+    private $dbusername = "adopse";
+    private $dbpassword = "Adopse@2022";
 
     private static $conn;
 

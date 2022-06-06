@@ -103,7 +103,7 @@ function Editable($creatorid, $userid, $quizid)
     {
         if($creatorid==$userid)
             {
-                return "<img class='editbutton' src='../images/edit_icon.png' onclick='editThisQuiz($quizid)' style='width: 40px;height: 40px;'>";
+                return "<img class='editbutton' src='../images/edit_icon.png' onclick='editThisQuizOnQuizes($quizid)' style='width: 40px;height: 40px;'>";
             }
         else{
             {
