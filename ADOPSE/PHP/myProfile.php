@@ -7,8 +7,8 @@ session_start();
 require_once "Functions/Functions.php";
 require_once "Functions/QuizFunctions.php";
 include_once("Objects/User.php");
-require_once "database.php";
-$conn = getConnection();
+include_once("DatabaseConnection.php");
+$conn = DatabaseConnection::connect();
 $eError = "This Field is Required";
 $nameErr = $lnameErr = $emailErr = $pass1Err = $pass2Err = $passdmErr = $Success = $genError = "";
 $name = $email = $password2 = $password1 = $lastname = $fpassword = "";
@@ -26,46 +26,46 @@ $user->setEmail($_SESSION["UserE"]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updateProfile']))
 {
-    if (!strcmp($_POST["email"], $user->Email))
+    if (!strcmp(htmlspecialchars($_POST["email"]), $user->Email))
         {
             $eok = false;
         }
     else
         {
             $eok = false;
-            if(emailExists($_POST["email"],$genError))
+            if(emailExists(htmlspecialchars($_POST["email"]),$genError))
                 {
                     $eok = false;
                     $emailErr = "This Email is already in use";
                 }
             else
                 {
-                    if (!empty($_POST["email"]))
+                    if (!empty(htmlspecialchars($_POST["email"])))
                             {
-                                $email = $_POST["email"];
+                                $email = htmlspecialchars($_POST["email"]);
                                 $eok = true;
                             }
                 }
         }
 
-    if (empty($_POST["password1"]))
+    if (empty(htmlspecialchars($_POST["password1"])))
         {
             $pass1ok = false;
         }
     else
         {
-            if (empty($_POST["password2"]))
+            if (empty(htmlspecialchars($_POST["password2"])))
                 {
                     $pass2Err = $eError;
                     $pass2ok = false;
                 }
             else
                 {
-                    $password1 = $_POST["password1"];
+                    $password1 = htmlspecialchars($_POST["password1"]);
                     $pass1ok = true;
                     $pass1Err = "";
 
-                    $password2 =$_POST["password2"];
+                    $password2 = htmlspecialchars($_POST["password2"]);
                     $pass2ok = true;
                     $pass2Err = "";
                 }
@@ -73,16 +73,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updateProfile']))
 
     if($pass1ok && $pass2ok)
         {
-            if (strcmp($password1,$password2))
+            if (strcmp(htmlspecialchars($password1),htmlspecialchars($password2)))
                 {
                     $passdmErr = "Passwords do not match";
                     $passok = false;
-        //                                  $pass2Err = "";
-        //                                  $pass1Err = "";
                 }
             else
                 {
-                    $fpassword=$_POST["password1"];
+                    $fpassword = htmlspecialchars($_POST["password1"]);
                     $passdmErr = "";
                     $passok = true;
                 }
@@ -130,9 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['updateProfile']))
                     $stmt = $conn->prepare($q);
                     $stmt->execute([$password1, $user->Email]);
                     $Success = "Password successfully updated.";
-                    $InLastName = "";
-                    $InName = "";
-                    $InEmail = "";
                 }
             catch (Exception $ex)
                 {

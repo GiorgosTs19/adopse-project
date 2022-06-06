@@ -84,19 +84,19 @@ function deleteThisQuiz(quizid)
             }
     }
 
-// function closeWindow()
-//     {
-//         if (confirm("Do you really want to stop editing?") == true)
-//             {
-//                 document.getElementById("myModal").style.display = "none";
-//                 document.getElementById("content").style.filter = 'blur(0px)';
-//                 document.getElementById("contentbody").style.filter = 'blur(0px)';
-//             }
-//         else
-//             {
-//                 // text = "You canceled!";
-//             }
-//     }
+function closeWindow()
+    {
+        if (confirm("Do you really want to stop editing?") == true)
+            {
+                document.getElementById("myModal").style.display = "none";
+                document.getElementById("content").style.filter = 'blur(0px)';
+                document.getElementById("contentbody").style.filter = 'blur(0px)';
+            }
+        else
+            {
+                // text = "You canceled!";
+            }
+    }
 
 
 function appendUserQuestions(id, quizid)

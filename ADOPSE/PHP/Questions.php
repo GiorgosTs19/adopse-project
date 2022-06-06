@@ -11,8 +11,8 @@ if(!$_SESSION["LoggedIn"])
         require_once "Functions/Functions.php";
         include_once("Objects/User.php");
         //DB Info
-        require_once "database.php";
-        $conn = getConnection();
+        include_once("DatabaseConnection.php");
+        $conn = DatabaseConnection::connect();
         //User Info
         $user = new User();
         $user->setID($_SESSION["UserId"]);  

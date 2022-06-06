@@ -12,13 +12,13 @@ require_once "../Functions/Functions.php";
 require_once "../Functions/QuizFunctions.php";
 include_once("../Objects/User.php");
 $id = $_SESSION["UserId"];
-require_once "../database.php";
+include_once("../DatabaseConnection.php");
 $user = new User();
 $user->setID($_SESSION["UserId"]);
 $user->setName($_SESSION["UserN"]);
 $user->setLastName($_SESSION["UserLN"]);
 $user->setEmail($_SESSION["UserE"]);
-$conn = getConnection();
+$conn = DatabaseConnection::connect();
 
     finishLastAttempt($_SESSION['cqid'],$user->ID);
     $lastAttempt = getLastAttemptOnQuiz($_SESSION['cqid'],$user->ID);

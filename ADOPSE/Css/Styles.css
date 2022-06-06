@@ -367,10 +367,7 @@ legend
     max-width: 75%;
     max-height: 70%;
     text-decoration-color: black;
-    border-radius: 26px;
     background: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 122, 89, 0)) no-repeat center;
-
-
     background-size: cover;
     overflow-y: scroll;
 }
@@ -420,16 +417,17 @@ legend
 .toggle-button-cover {
 
     position: relative;
-
+    width: 200px;
     height: 140px;
     box-sizing: border-box;
-
+    margin-left: 44%;
 }
 
 .button-cover {
     height: 100px;
     margin: 20px;
-
+    background-color: #fff;
+    box-shadow: 0 10px 20px -8px #c5d6d6;
     border-radius: 4px;
 }
 
@@ -452,7 +450,6 @@ legend
     right: 0;
     bottom: 0;
     left: 0;
-    border-radius: 12px;
 }
 
 .button {
@@ -588,7 +585,7 @@ legend
     border: 3px solid #0052ff;
     border-radius: 10px;
 
-    height: 600px;
+    height: 684px;
 
 }
 
@@ -616,7 +613,7 @@ legend
 
 .quizintroinfo {
 
-    height: 428px;
+    height: 510px;
 
     width: 50%;
 
@@ -891,7 +888,7 @@ legend
     padding: 10px;*/
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 274px;
+    height: 310px;
 
 
 }
@@ -956,12 +953,7 @@ legend
         text-align: center;
         vertical-align: center;
         padding: 10px 15px;
-    border-collapse: collapse;
     }
-
-.table-bordered tr{
-    line-height: 10px;
-}
 
 .myquizes{
     text-align: center;
@@ -1033,62 +1025,3 @@ legend
 .leftbar_content{
     margin-top: 16%;
 }
-
-#update{
-    background-color: #0052ff;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 30px;
-}
-
-#removeFromThisQuiz{
-    background-color: #0052ff;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 30px;
-}
-
-#addtoQuiz{
-    background-color: #0052ff;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 30px;
-}
-
-#close{
-    cursor: pointer;
-}
-
-#Title,#Topic,#ShortDesc{
-    border-radius: 12px;
-}
-
-#AttemptCount,#QuizTimeLimit{
-    border-radius: 6px;
-}
-
-#BackToConfig,#submitquiz{
-    background-color: #0052ff;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 30px;
-}
-
-
-

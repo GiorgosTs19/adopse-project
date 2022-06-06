@@ -9,7 +9,7 @@ if(!$_SESSION["LoggedIn"])
 require_once "Functions/Functions.php";
 require_once "Functions/QuizFunctions.php";
 include_once("Objects/User.php");
-require_once "database.php";
+include_once("DatabaseConnection.php");
 //User Initialization
 $user = new User();
 $user->setID($_SESSION["UserId"]);
@@ -18,10 +18,7 @@ $user->setLastName($_SESSION["UserLN"]);
 $user->setEmail($_SESSION["UserE"]);
 
 $id = $_SESSION["UserId"];
-$servername = "localhost";
-$dbusername = "adopse";
-$dbpassword = "Adopse@2022";
-$conn = getConnection();
+$conn = DatabaseConnection::connect();
 
 
 if (isset($_GET['sqid']))

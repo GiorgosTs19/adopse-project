@@ -1,12 +1,11 @@
 <?php
-// Start the session
 session_start();
 ?>
 <html>
     <?php
         require_once "Functions/Functions.php";
-    require_once "database.php";
-            $conn = getConnection();
+        include_once("DatabaseConnection.php");
+            $conn = DatabaseConnection::connect();
             $eError = "This Field is Required";
             $nameErr = $lnameErr = $emailErr = $pass1Err = $pass2Err = $passdmErr = $Success = $genError = "";
             $name = $email = $password2 = $password1 = $lastname = $fpassword = "";
@@ -14,38 +13,22 @@ session_start();
             //Οι τιμές των πεδίων που έχουν συμπληρωθεί παραμένουν
             $InLastName = $InName = $InEmail = "";
             $temp2 = $temp3 = "";
-//            function emailExists(String $email) 
-//                {
-//                    $GLOBALS['temp2'] = $email;
-//
-//                    try
-//                        {
-//                            $q = "SELECT 1 FROM users WHERE email=?";
-//                            $stmt = $GLOBALS['conn']->prepare($q);
-//                            $stmt->execute([$email]);
-//                            $_SESSION['exec_reset'] = 0;
-//                            $GLOBALS['temp3'] = 1;
-//                            return $stmt->fetchColumn();
-//                            
-//                        } 
-//                    catch (Exception $ex) {$genError = $ex;}
-//                }
-                
+
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
                 {
-                    if (empty($_POST["name"])) 
+                    if (empty(htmlspecialchars($_POST["name"])))
                         {
                           $nameErr = $eError;
                           $nok = false;
                         } 
                     else 
                         {
-                          $name = $_POST["name"];
+                          $name = htmlspecialchars($_POST["name"]);
                           $nok = true;
                           $nameErr = "";
                         }
 
-                    if (empty($_POST["email"])) 
+                    if (empty(htmlspecialchars($_POST["email"])))
                         {
                           $emailErr = $eError;
                           $eok = false;
@@ -53,60 +36,60 @@ session_start();
                     else 
                         {
                             $eok = false;
-                            if(emailExists($_POST["email"],$genError))
+                            if(emailExists(htmlspecialchars($_POST["email"]),$genError))
                                 {
                                     $eok = false;
                                     $emailErr = "This Email is already in use";
                                 }
                             else
                                 {
-                                if (!empty($_POST["email"])) 
+                                if (!htmlspecialchars(empty($_POST["email"])))
                                     {
-                                        $email = $_POST["email"];
+                                        $email = htmlspecialchars($_POST["email"]);
                                         $eok = true;
                                     }                                   
                                 }
                         }
 
-                    if (empty($_POST["lastname"])) 
+                    if (empty(htmlspecialchars($_POST["lastname"])))
                         {
                           $lnameErr = $eError;
                           $lnok = false;
                         } 
                     else 
                         {
-                          $lname = $_POST["lastname"];
+                          $lname = htmlspecialchars($_POST["lastname"]);
                           $lnok = true;
                           $lnameErr = "";
                         }
                         
-                    if (empty($_POST["password1"])) 
+                    if (empty(htmlspecialchars($_POST["password1"])))
                         {
                           $pass1Err = $eError;
                           $pass1ok = false;
                                 } 
                     else 
                         {
-                          $password1 = $_POST["password1"];
+                          $password1 = htmlspecialchars($_POST["password1"]);
                           $pass1ok = true;
                           $pass1Err = "";
                         }
 
-                    if (empty($_POST["password2"])) 
+                    if (empty(htmlspecialchars($_POST["password2"])))
                         {
                           $pass2Err = $eError;
                           $pass2ok = false;
                         } 
                     else 
                         {
-                          $password2 =$_POST["password2"];
+                          $password2 = htmlspecialchars($_POST["password2"]);
                           $pass2ok = true;
                           $pass2Err = "";
                         }
                         
                     if($pass1ok && $pass2ok)
                         {
-                             if (strcmp($password1,$password2)) 
+                             if (strcmp(htmlspecialchars($password1),htmlspecialchars($password2)))
                                 {
                                   $passdmErr = "Passwords do not match";
                                   $passok = false;
@@ -115,7 +98,7 @@ session_start();
                                 } 
                             else 
                                 {
-                                  $fpassword=$_POST["password1"];
+                                  $fpassword= htmlspecialchars($_POST["password1"]);
                                   $passdmErr = "";
                                   $passok = true;
                                 }

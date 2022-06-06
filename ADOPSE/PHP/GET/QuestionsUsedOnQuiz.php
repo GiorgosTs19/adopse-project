@@ -20,13 +20,13 @@ require_once "../Functions/Functions.php";
 require_once "../Functions/QuizFunctions.php";
 include_once("../Objects/User.php");
 $id = $_SESSION["UserId"];
-require_once "../database.php";
+include_once("../DatabaseConnection.php");
 $user = new User();
 $user->setID($_SESSION["UserId"]);
 $user->setName($_SESSION["UserN"]);
 $user->setLastName($_SESSION["UserLN"]);
 $user->setEmail($_SESSION["UserE"]);
-$conn = require_once "../database.php";
+$conn = DatabaseConnection::connect();
 //        $q = "SELECT id, question, type, topic, idcreator idcreator FROM questions WHERE idcreator = ?";
 //        $stmt = $GLOBALS['conn']->prepare($q);
 //        $stmt->execute([$id]);
@@ -83,7 +83,7 @@ else
                         echo '<fieldset>';
                         echo '<input type="text" class ="removeFromThisQuiz" id="removeFromThisQuiz'.$quizid.'" name = "removeFromThisQuiz" value="'.$quizid.'" hidden>';
                         echo '<input type="text" class ="thisQuestion" id="thisQuestion'.$question['id'].'" name = "thisQuestion" value="'.$question['id'].'" hidden>';
-                        echo '<input type="submit" id="removeFromThisQuiz" value="Remove" >';
+                        echo '<input type="submit" value="Remove" >';
                         echo '</fieldset>';
                         echo '</form>';
                     }

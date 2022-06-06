@@ -1,16 +1,9 @@
 <?php
 
-$servername = "localhost";
-$dbusername = "root";
-$dbpassword = "adopse";
-
-$conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-function emailExists(String $email,String $genError) 
+function emailExists(String $email,String $genError)
     {
-        global $conn;
+        $GLOBALS['temp2'] = $email;
+        $conn =  DatabaseConnection::connect();
         try
             {
                 $q = "SELECT 1 FROM users WHERE email=?";
@@ -20,13 +13,13 @@ function emailExists(String $email,String $genError)
                 $GLOBALS['temp3'] = 1;
                 return $stmt->fetchColumn();
 
-            } 
+            }
         catch (Exception $ex) {$genError = $ex;}
     }
-    
-function PasswordIsAuthenticated(String $password, $genError, String $email) 
+
+function PasswordIsAuthenticated(String $password, $genError, String $email)
     {
-        global $conn;
+        $conn =  DatabaseConnection::connect();
         try
             {
                 $q = "SELECT password FROM users WHERE email=?";
@@ -43,19 +36,13 @@ function PasswordIsAuthenticated(String $password, $genError, String $email)
                     {
                         return true;
                     }
-            } 
+            }
         catch (Exception $ex) {$genError = $ex;}
     }
-    
+
 function selectMaxFromCreator($id,$table)
     {
-        $servername = "localhost";
-        $dbusername = "root";
-        $dbpassword = "adopse";
-
-        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn =  DatabaseConnection::connect();
         $q = "SELECT MAX(id) as mid FROM $table WHERE idcreator=? LIMIT 1";
             $stmt = $conn->prepare($q);
             $stmt->execute([$id]);
@@ -63,16 +50,10 @@ function selectMaxFromCreator($id,$table)
             return $results["mid"];
     }
 
-    
+
 function selectQuestionAnswers($qid)
     {
-        $servername = "localhost";
-        $dbusername = "root";
-        $dbpassword = "adopse";
-
-        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn =  DatabaseConnection::connect();
         $q = "SELECT id, text, correct, parent FROM answers WHERE parent=?";
         $stmt = $conn->prepare($q);
         $stmt->execute([$qid]);
@@ -82,7 +63,7 @@ function selectQuestionAnswers($qid)
 
 function selectQuestionsNotAlreadyInCurrentQuiz($qid)
     {
-        global $conn;
+        $conn =  DatabaseConnection::connect();
         $select = "
             select distinct * 
             from questions 
@@ -106,15 +87,8 @@ function selectQuestionsNotAlreadyInCurrentQuiz($qid)
 
 function selectQuestionsAlreadyInCurrentQuiz($qid)
     {
-        $servername = "localhost";
-        $dbusername = "root";
-        $dbpassword = "adopse";
-
-        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $select = "	    
+        $conn =  DatabaseConnection::connect();
+        $select = "	
             select * 
             from questions
             where id 
@@ -130,46 +104,50 @@ function selectQuestionsAlreadyInCurrentQuiz($qid)
     }
 
 function selectAllUserQuestions($cid)
-{
-    global $conn;
-    $select = "	
-            select * 
-            from questions
-            where idcreator=? order by id desc;";
-    $stmt1 = $conn->prepare($select);
-    $stmt1->execute([$cid]);
-    return $stmt1->fetchAll();
-}
+    {
+        $conn =  DatabaseConnection::connect();
+        $select = "	
+                select * 
+                from questions
+                where idcreator=? order by id desc;";
+        $stmt1 = $conn->prepare($select);
+        $stmt1->execute([$cid]);
+        return $stmt1->fetchAll();
+    }
 
 
 function time_elapsed_string($datetime, $full = false)
-{
-    global $conn;
-    $now = new DateTime;
-    $ago = new DateTime($datetime);
-    $diff = $now->diff($ago);
+    {
+        $conn =  DatabaseConnection::connect();
+        $now = new DateTime;
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
 
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
 
-    $string = array(
-        'y' => 'year',
-        'm' => 'month',
-        'w' => 'week',
-        'd' => 'day',
-        'h' => 'hour',
-        'i' => 'minute',
-        's' => 'second',
-    );
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-        } else {
-            unset($string[$k]);
-        }
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'week',
+            'd' => 'day',
+            'h' => 'hour',
+            'i' => 'minute',
+            's' => 'second',
+        );
+        foreach ($string as $k => &$v)
+            {
+                if ($diff->$k)
+                    {
+                        $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                    }
+                else
+                    {
+                        unset($string[$k]);
+                    }
+            }
+
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
-
-    if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? implode(', ', $string) . ' ago' : 'just now';
-}
 ?>

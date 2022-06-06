@@ -15,7 +15,7 @@ session_start();
         include_once("../Objects/Answer.php");
         include_once("../Objects/User.php");
         require_once "../Functions/Functions.php";
-        require_once "../database.php";
+        include_once("../DatabaseConnection.php");
         $id = $_SESSION["UserId"];
         //User Initialization
         $user = new User();
@@ -23,7 +23,9 @@ session_start();
         $user->setName($_SESSION["UserN"]);
         $user->setLastName($_SESSION["UserLN"]);
         $user->setEmail($_SESSION["UserE"]);
-        $conn = getConnection();
+        $conn = DatabaseConnection::connect();
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         $q = "INSERT INTO quizquestions (quizid, questionid) VALUES (?,?);";
         $stmt = $conn->prepare($q);
         $stmt->execute([$_POST["addToThisQuiz"], $_POST["thisQuestion"]]);

@@ -9,7 +9,7 @@ if(!$_SESSION["LoggedIn"])
     require_once "Functions/Functions.php";
     require_once "Functions/QuizFunctions.php";
     include_once("Objects/User.php");
-    require_once "database.php";
+    include_once("DatabaseConnection.php");
     //User Initialization
     $user = new User();
     $user->setID($_SESSION["UserId"]);  
@@ -71,7 +71,6 @@ if(!$_SESSION["LoggedIn"])
             <div>
                 <a href="myProfile.php"><img src="../images/profile-icon.jpg" alt="Avatar" id="avatar" ></a>
             </div>
-
             <br>
             <a href="myProfile.php">Profile</a>
             <br>

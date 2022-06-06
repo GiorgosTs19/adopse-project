@@ -1,26 +1,20 @@
 <?php
 session_start();
-if($_SESSION["LoggedIn"])
+if(isset($_SESSION["LoggedIn"]))
 {
-    header("Location: http://localhost/ADOPSE/PHP/index.php");
+    if($_SESSION["LoggedIn"])
+        {
+            header("Location: http://localhost/ADOPSE/PHP/index.php");
+        }
+
 }
 ?>
 <?php 
         require_once "Functions/Functions.php";
         include_once("Objects/User.php");
-        include_once("database.php");
-//        $servername = "localhost";
-//        $dbusername = "adopse";
-//        $dbpassword = "Adopse@2022";
-//        $_SESSION["servername"] = "localhost";
-//        $_SESSION["dbusername"] = "adopse";
-//        $_SESSION["dbpassword"] = "Adopse@2022";
-//
-//
-//        $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-//              // set the PDO error mode to exception
-//            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $conn = getConnection();
+        include_once("DatabaseConnection.php");
+
+            $conn = DatabaseConnection::connect();
             $eError = "This Field is Required";
             $emailErr =$passErr = $Success = $genError = "";
             $email = $password = "";
@@ -28,7 +22,7 @@ if($_SESSION["LoggedIn"])
             $temp2 = $temp3 = "";
             function setUser($email)
                 {
-                    $conn = getConnection();
+                    $conn = DatabaseConnection::connect();
                     try
                         {                           
                             $q = "SELECT userid, name, lname, email FROM users WHERE email=? LIMIT 1";
@@ -49,7 +43,7 @@ if($_SESSION["LoggedIn"])
             
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
                 {
-                    if (empty($_POST["email"])) 
+                    if (empty(htmlspecialchars($_POST["email"])))
                         {
                           //$emailErr = $eError;
                           $eok = false;
@@ -57,24 +51,24 @@ if($_SESSION["LoggedIn"])
                     else 
                         {
                             $eok = false;
-                            if(emailExists($_POST["email"],$genError))
+                            if(emailExists(htmlspecialchars($_POST["email"]),$genError))
                                 {
                                     $eok = true;
                                     $email = $_POST["email"];
                                     
-                                    if (empty($_POST["password"])) 
+                                    if (empty(htmlspecialchars($_POST["password"])))
                                         {
                                             //$passErr = $eError;
                                             $passok = false;
                                           } 
                                     else 
                                         {
-                                            if(PasswordIsAuthenticated($_POST["password"],$genError,$_POST["email"]))
+                                            if(PasswordIsAuthenticated(htmlspecialchars($_POST["password"]),$genError,htmlspecialchars($_POST["email"])))
                                                 {
-                                                    $password1 = $_POST["password"];
+                                                    $password1 = htmlspecialchars($_POST["password"]);
                                                     $passok = true;
                                                     //$passErr = "";
-                                                    setUser($_POST["email"]);
+                                                    setUser(htmlspecialchars($_POST["email"]));
                                                     $_SESSION["LoggedIn"] = true;
                                                     $Success = "You have successfully signed in";
                                                     header("Location: http://localhost/ADOPSE/PHP/index.php");
@@ -89,7 +83,7 @@ if($_SESSION["LoggedIn"])
                                 }
                             else
                                 {
-                                    if (!empty($_POST["email"])) 
+                                    if (!empty(htmlspecialchars($_POST["email"])))
                                         {
                                             $eok = false;
                                             $emailErr = "No user associated with this email was found";

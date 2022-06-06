@@ -10,8 +10,8 @@ if(!$_SESSION["LoggedIn"])
     <?php
         require_once "Functions/Functions.php";
         include_once("Objects/User.php");
-        require_once "database.php";
-        $conn = getConnection();
+        include_once("DatabaseConnection.php");
+        $conn = DatabaseConnection::connect();
         $GLOBALS['conn']=$conn;
         //User Initialization
         $user = new User();
@@ -339,7 +339,7 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to Shuffle the Questions-->
                    <label for="Shuffled" >Shuffle Questions</label>
                    <input type="checkbox" id="Shuffle" name="Shuffled" 
-                       value="Shuffled" disabled>
+                       value="Shuffled"> 
                    <br>
                    <br>
 <!--                   Option to allow multiple attempts-->
@@ -364,13 +364,13 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to make your Quiz be "Forward Only"-->
                    <label for="ForwardOnly">Do you want your Quiz to be "Forward Only" ?</label>
                    <input type="checkbox" id="ForwardOnly" name="ForwardOnly" 
-                       value="ForwardOnly" disabled>
+                       value="ForwardOnly"> 
                    <br>
                    <br>
 <!--                   Option to make your Quiz have negative grading-->
                    <label for="NegGrading">Do you want your Quiz to have negative grading?</label>
                    <input type="checkbox" id="NegGrading" name="NegGrading" 
-                       value="NegGrading" onclick="NegativeGrading()" disabled>
+                       value="NegGrading" onclick="NegativeGrading()">       
                    <label for="NegGrade" id="NegGradeLabel" hidden>Correct Answer's Grade / </label>
                    <input type='number' id="NegGrade" name='NegGrade' min="0" oninput="this.value = Math.abs(this.value)" hidden>
                    <br>
@@ -380,7 +380,7 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to make your Quiz be accessible only with a password-->
                    <label for="PassOnly">Make your Quiz accessible only with a password?</label>
                    <input type="checkbox" id="PassOnly" name="PassOnly" 
-                       value="PassOnly" onclick="QuizAccessPassword()" disabled>
+                       value="PassOnly" onclick="QuizAccessPassword()">
                    <label for="QuizPassword" id="QuizPasswordLabel" hidden>Password : </label>
                    <input type='text' id="QuizPassword" name='QuizPassword' hidden>
                    <br>

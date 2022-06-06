@@ -1,11 +1,5 @@
 <?php
 
-    $servername = "localhost";
-    $dbusername = "root";
-    $dbpassword = "adopse";
-    $conn = new PDO("mysql:host=$servername;dbname=adopse", $dbusername, $dbpassword);
-// set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 function Timed($condition, $time)
     {
@@ -21,7 +15,7 @@ function Timed($condition, $time)
 
 function isTimed($quizid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $selectTimed = "SELECT timed  FROM quizattributes WHERE quizid=?;";
         $stmt2 = $conn->prepare($selectTimed);
         $stmt2->execute([$quizid]);
@@ -71,7 +65,7 @@ function ForwardOnly($condition)
 
 function ForwardOnlyCondition($quizid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $selectTimed = "SELECT forwardonly  FROM quizattributes WHERE quizid=?;";
         $stmt2 = $conn->prepare($selectTimed);
         $stmt2->execute([$quizid]);
@@ -156,7 +150,7 @@ function setStartButton($quizid)
 
 function isFavorite($userid, $quizid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $select = "	SELECT * FROM favorites WHERE userid=? && quizid=?;";
         $stmt1 = $conn->prepare($select);
         $stmt1->execute([$userid,$quizid]);
@@ -174,7 +168,7 @@ function setDeletionIcon($quizid)
 
 function userAllowedAttempts($quizid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $selectattempts = "SELECT attempts FROM quizattributes WHERE quizid=?;";
         $stmt1 = $conn->prepare($selectattempts);
         $stmt1->execute([$quizid]);
@@ -203,7 +197,7 @@ function userAllowedAttempts($quizid)
 
 function answerIsSet($attemptid, $userid, $quizid, $questionid, $answerid, $selection)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         if(!strcmp($selection, "Multiple"))
             {
                 if(empty($answerid))
@@ -313,7 +307,7 @@ function returnAnswerType($questionid, $type, $text, $answerid, $attempid, $user
 
 function getQuizQuestions($quizid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q2 = "select questionid from quizquestions where quizid= ?";
 
         $stmt2 = $conn->prepare($q2);
@@ -324,7 +318,7 @@ function getQuizQuestions($quizid)
 
 function countQuestions($id)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q2 = "select count(questionid) as count from quizquestions where quizid= ?";
 
         $stmt2 = $conn->prepare($q2);
@@ -335,7 +329,7 @@ function countQuestions($id)
 
 function getPreviousAndNextQuestionIDs($quizid, $currentquestionid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $questions=getQuizQuestions($quizid);
         $index=array_search((int)$currentquestionid,$questions,true);
 
@@ -365,7 +359,7 @@ function getPreviousAndNextQuestionIDs($quizid, $currentquestionid)
 
 function getQuestion($questionid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q1 =   "SELECT *
             FROM questions
             WHERE id=?;";
@@ -378,7 +372,7 @@ function getQuestion($questionid)
 
 function getLastAttemptonQuizID($quizid,$userid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q4 = "SELECT MAX(attemptid) AS attemptid FROM attempts WHERE quizid=? AND userid=?";
 
         $stmt4 = $conn->prepare($q4);
@@ -388,7 +382,7 @@ function getLastAttemptonQuizID($quizid,$userid)
 
 function deleteAnswerUpdate($attemptid, $userid, $quizid, $questionid, $answers)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $intAnswers = array_map(
             function($value) { return (int)$value; },
             $answers
@@ -421,7 +415,7 @@ function deleteAnswerUpdate($attemptid, $userid, $quizid, $questionid, $answers)
 
 function deleteNulls($attemptid, $userid, $quizid, $questionid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q1 = "DELETE FROM attemptanswers 
         WHERE attemptid = ? 
         AND userid = ? AND 
@@ -433,7 +427,7 @@ function deleteNulls($attemptid, $userid, $quizid, $questionid)
 
 function answerSubmitted($attemptid, $userid, $quizid, $questionid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q1 = "SELECT * 
                 FROM attemptanswers 
                 WHERE attemptid = ? 
@@ -448,7 +442,7 @@ function answerSubmitted($attemptid, $userid, $quizid, $questionid)
 
 function gradeQuestion($questionid, $answergivenid, $quizid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $question = getQuestion($questionid);
         $grade = getCorrectAnswerGrade($quizid);
         $neggrade = getNegGrading($quizid);
@@ -508,7 +502,7 @@ function gradeQuestion($questionid, $answergivenid, $quizid)
 
  function getNegGrading($quizid)
      {
-         global $conn;
+         $conn = DatabaseConnection::connect();
          $q1 = "select negativegrading
                 from quizattributes
                 where quizid = ? ;";
@@ -545,7 +539,7 @@ function getCorrectAnswerGrade($quizid)
 
 function getCorrectAnswers($questionid, $selection)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         if(!strcmp($selection,"Single"))
             {
                 $q1 = "select a.id as correctAnswerId
@@ -576,7 +570,7 @@ function getCorrectAnswers($questionid, $selection)
 
 function getQuizInfo($quizid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q1 =   "SELECT *
                 FROM quizes
                 WHERE id=?;";
@@ -589,7 +583,7 @@ function getQuizInfo($quizid)
 
 function getLastAttemptOnQuiz($quizid,$userid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q1 =   "SELECT *
                     FROM attempts
                     WHERE quizid=? AND userid=? ORDER BY attemptid DESC LIMIT 1";
@@ -602,7 +596,7 @@ function getLastAttemptOnQuiz($quizid,$userid)
 
 function finishLastAttempt($quizid,$userid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $result1 = getLastAttemptOnQuiz($quizid,$userid);
         $lastAttemptID = $result1['attemptid'];
         $now = date("Y-m-d H:i:s");
@@ -614,7 +608,7 @@ function finishLastAttempt($quizid,$userid)
 
 function getLastFiveAttemptsOnQuiz($quizid,$userid)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q1 =   "SELECT *
                         FROM attempts
                         WHERE quizid=? AND userid=? ORDER BY attemptid DESC LIMIT 5";
@@ -627,7 +621,7 @@ function getLastFiveAttemptsOnQuiz($quizid,$userid)
 
 function checkRandomAccessPass($rap)
     {
-        global $conn;
+        $conn = DatabaseConnection::connect();
         $q1 =   "SELECT *
                         FROM quizattributes
                         WHERE randomaccesspassword=? LIMIT 1";

@@ -10,8 +10,8 @@ if(!$_SESSION["LoggedIn"])
 require_once "../Functions/Functions.php";
 require_once "../Functions/QuizFunctions.php";
 include_once("../Objects/User.php");
-require_once "../database.php";
-$conn =getConnection();
+include_once("../DatabaseConnection.php");
+$conn = DatabaseConnection::connect();
 //User Initialization
 $user = new User();
 $user->setID($_SESSION["UserId"]);
@@ -57,7 +57,8 @@ $user->setEmail($_SESSION["UserE"]);
                 if ($quiz['timed'] == 1)
                     {
                         echo '<input type="number" id="starttimer" value="1" hidden>';
-                        echo '<p style="color: red">Warning! The timer will begin the moment you press "Start Quiz" and it cannot reset or be paused. </p>';
+                        echo '<p style="color: red">Warning! The timer will begin the moment you press "Start Quiz", </p>';
+                        echo '<p style="color: red">and it cannot reset or be paused.</p>';
                     }
                 else
                     {
@@ -84,7 +85,7 @@ $user->setEmail($_SESSION["UserE"]);
                 if(!isTimed($_SESSION['cqid'])==0)
                     {
                         echo        '<div class="quizrightnavbanner" id="quizrightnavbanner">';
-                        echo    '<span><img src="../images/timer.png" style="width: 70px; height: 70px; float: left; border: none;"><p id="timer" style="margin: 11px 0 0 0"></p></span>';
+                        echo    '<span><img src="../images/timer.png" style="width: 70px; height: 70px; float: left; border: none;"><p id="timer"></p></span>';
                         echo        '</div>';
                     }
                 echo        '<div class="rightnav-progress">';
