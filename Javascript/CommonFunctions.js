@@ -67,7 +67,7 @@ function editThisQuiz(quizid)
 
 function deleteThisQuiz(quizid)
     {
-        if (confirm("This Quiz and any reference to it will be permanently delete. This action cannot be undone. " +
+        if (confirm("This Quiz and any reference to it will be permanently deleted. This action cannot be undone. " +
             "Are you sure you want to delete this quiz?") == true)
             {
                 var xmlhttp = new XMLHttpRequest();
@@ -84,19 +84,7 @@ function deleteThisQuiz(quizid)
             }
     }
 
-function closeWindow()
-    {
-        if (confirm("Do you really want to stop editing?") == true)
-            {
-                document.getElementById("myModal").style.display = "none";
-                document.getElementById("content").style.filter = 'blur(0px)';
-                document.getElementById("contentbody").style.filter = 'blur(0px)';
-            }
-        else
-            {
-                // text = "You canceled!";
-            }
-    }
+
 
 
 function appendUserQuestions(id, quizid)

@@ -1,6 +1,17 @@
-<?php ?>
-
-
+<?php
+session_start();
+if(isset($_SESSION["LoggedIn"]))
+    {
+        if(!$_SESSION["LoggedIn"])
+            {
+                header("Location: http://localhost/ADOPSE/PHP/Login.php");
+            }
+    }
+else
+    {
+        header("Location: http://localhost/ADOPSE/PHP/Login.php");
+    }
+?>
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -20,57 +31,58 @@
 </style>
 <body>
 
-<div id="wrapper">
-    <div id="top">
-        <div id="logo">
-            <a href="index.php">
+    <div id="wrapper">
+        <div id="top">
+            <div id="logo">
+                <a href="index.php">
                 <img src="../images/myQuiz.png" height="100" width="133" /></a>
-        </div>
+            </div>
 
-    </div>
-
-    <br>
-    <br>
-
-    <!--            Burger Navigation-->
-    <div class="sidenav" id="mySidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div>
-            <a href="myProfile.php"><img src="../images/profile-icon.jpg" alt="Avatar" id="avatar" ></a>
         </div>
 
         <br>
-        <a href="myProfile.php">Profile</a>
         <br>
-        <br>
-        <a class="active" href="index.php">Home</a>
-        <br>
-        <br>
-        <a href="Questions.php">Questions</a>
-        <a href="Quizes.php">My Quizes</a>
-        <a href="Logout.php" style="margin-top: 50%">Log Out</a>
-    </div>
 
-    <div id="contentbody" class="myquizes">
-        <div id="content">
-            <span id="CTBurger" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+        <!--            Burger Navigation-->
+        <div class="sidenav" id="mySidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div>
+                <a href="myProfile.php"><img src="../images/profile-icon.jpg" alt="Avatar" id="avatar" ></a>
+            </div>
+
             <br>
-            <h1>Favorites</h1>
-            <div class="btn-group">
-                <button class="button" id="favQuizes" onclick="viewFavoriteQuizes()" >Favorite Quizes</button>
-                <button class="button" id="favQuestions" onclick="" >Favorite Questions</button>
-            </div>
+            <a href="myProfile.php">Profile</a>
+            <br>
+            <br>
+            <a class="active" href="index.php">Home</a>
+            <br>
+            <br>
+            <a href="Questions.php">Questions</a>
+            <a href="Quizes.php">My Quizes</a>
+            <a href="Logout.php" style="margin-top: 50%">Log Out</a>
+        </div>
 
-            <div id="myQuizModal" class="modal" >
-                <div class="modal-content" id="quiz-modal-content">
-
+        <div id="contentbody" class="myquizes">
+            <div id="content">
+                <span id="CTBurger" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+                <br>
+                <h1>Favorites</h1>
+                <div class="btn-group">
+                    <button class="button" id="favQuizes" onclick="viewFavoriteQuizes()" >Favorite Quizes</button>
+                    <button class="button" id="favQuestions" onclick="" >Favorite Questions</button>
                 </div>
-            </div>
 
-            <div id="myFavQuizes" hidden>
-            </div>
+                <div id="myQuizModal" class="modal" >
+                    <div class="modal-content" id="quiz-modal-content">
 
-            <div id="myFavQuestions" hidden>
+                    </div>
+                </div>
+
+                <div id="myFavQuizes" hidden>
+                </div>
+
+                <div id="myFavQuestions" hidden>
+                </div>
             </div>
         </div>
     </div>

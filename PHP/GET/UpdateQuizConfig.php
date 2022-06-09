@@ -241,11 +241,11 @@ if(!$_SESSION["LoggedIn"])
     echo               '<label for="Shuffled" >Shuffle Questions</label>';
     if($results['shuffled']==1)
         {
-            echo    '<input checked type="checkbox" id="Shuffle" name="Shuffled" value="Shuffled">';
+            echo    '<input checked type="checkbox" id="Shuffle" name="Shuffled" value="Shuffled" disabled>';
         }
     else
         {
-            echo    '<input type="checkbox" id="Shuffle" name="Shuffled" value="Shuffled">';
+            echo    '<input type="checkbox" id="Shuffle" name="Shuffled" value="Shuffled" disabled>';
         }
     echo               '<br>';
     echo               '<br>';
@@ -299,7 +299,7 @@ if(!$_SESSION["LoggedIn"])
 
     if($results['forwardonly']==0)
         {
-            echo    ' <input type="checkbox" id="ForwardOnly" name="ForwardOnly" value="ForwardOnly">';
+            echo    ' <input type="checkbox" id="ForwardOnly" name="ForwardOnly" value="ForwardOnly" disabled>';
         }
     else
         {
@@ -311,11 +311,11 @@ if(!$_SESSION["LoggedIn"])
     echo                '<label for="NegGrading">Do you want your Quiz to have negative grading?</label>';
     if($results['negativegrading']==0)
         {
-            echo    '<input type="checkbox" id="NegGrading" name="NegGrading" value="NegGrading" onclick="NegativeGrading()">';
+            echo    '<input type="checkbox" id="NegGrading" name="NegGrading" value="NegGrading" onclick="NegativeGrading()" disabled>';
         }
     else
         {
-            echo    '<input checked type="checkbox" id="NegGrading" name="NegGrading" value="NegGrading" onclick="NegativeGrading()">';
+            echo    '<input checked type="checkbox" id="NegGrading" name="NegGrading" value="NegGrading" onclick="NegativeGrading()" disabled>';
         }
     if(!$results['neggrade']==null)
         {
@@ -335,11 +335,11 @@ if(!$_SESSION["LoggedIn"])
     //Password Only Option
     if($results['passonly']==1)
         {
-            echo '<input checked type="checkbox" id="PassOnly" name="PassOnly" value="PassOnly" onclick="QuizAccessPassword()">';
+            echo '<input checked type="checkbox" id="PassOnly" name="PassOnly" value="PassOnly" onclick="QuizAccessPassword()" disabled>';
         }
     else
         {
-            echo '<input type="checkbox" id="PassOnly" name="PassOnly" value="PassOnly" onclick="QuizAccessPassword()">';
+            echo '<input type="checkbox" id="PassOnly" name="PassOnly" value="PassOnly" onclick="QuizAccessPassword()" disabled>';
         }
     //IF Password Only Option is enabled, the password
     if($results['password']==null)

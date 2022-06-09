@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <?php
 session_start();
-if(!$_SESSION["LoggedIn"])
-{
-    header("Location: http://localhost/ADOPSE/PHP/Login.php");
-}
+if(isset($_SESSION["LoggedIn"]))
+    {
+        if(!$_SESSION["LoggedIn"])
+            {
+                header("Location: http://localhost/ADOPSE/PHP/Login.php");
+            }
+    }
+else
+    {
+        header("Location: http://localhost/ADOPSE/PHP/Login.php");
+    }
 ?>
 <html lang="en">
     <?php

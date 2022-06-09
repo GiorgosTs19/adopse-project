@@ -31,12 +31,12 @@ session_start();
         if($_GET['id']==0)
             {
                 $quizid = selectMaxFromCreator($user->ID,"quizes");
-                $results = selectQuestionsNotAlreadyInCurrentQuiz($quizid);
+                $results = selectQuestionsNotAlreadyInCurrentQuiz($user->ID,$quizid);
             }
         else if($_GET['id']>0)
             {
                 $quizid = $_GET['id'];
-                $results = selectQuestionsNotAlreadyInCurrentQuiz($quizid);
+                $results = selectQuestionsNotAlreadyInCurrentQuiz($user->ID,$quizid);
             }
         else
             {
@@ -45,13 +45,13 @@ session_start();
 
 
 
-        if(empty($results))
+        if(empty($results) && $_GET['id']==0)
             {
                 echo "You haven't created any Questions yet !";
             }
         elseif (empty($results) && $_GET['id']>0)
             {
-                echo "You have added all your questions to this quiz!";
+                echo "You have added all your questions to this quiz !";
             }
         else
             {

@@ -61,18 +61,18 @@ function selectQuestionAnswers($qid)
         return $results;
     }
 
-function selectQuestionsNotAlreadyInCurrentQuiz($qid)
+function selectQuestionsNotAlreadyInCurrentQuiz($userid,$qid)
     {
         $conn =  DatabaseConnection::connect();
         $select = "
             select distinct * 
             from questions 
-            where id 
+            where idcreator = ? AND id 
             in 
                 (
-                    select distinct questionid 
-                    from quizquestions 
-                    where questionid 
+                    select distinct id 
+                    from questions 
+                    where id 
                     not in 
                         (
                             select questionid 
@@ -81,17 +81,17 @@ function selectQuestionsNotAlreadyInCurrentQuiz($qid)
                         )
                     );";
         $stmt1 = $conn->prepare($select);
-        $stmt1->execute([$qid]);
+        $stmt1->execute([$userid,$qid]);
         return $stmt1->fetchAll();
     }
 
-function selectQuestionsAlreadyInCurrentQuiz($qid)
+function selectQuestionsAlreadyInCurrentQuiz($userid,$qid)
     {
         $conn =  DatabaseConnection::connect();
         $select = "	
             select * 
             from questions
-            where id 
+            where  idcreator = ? AND id 
             in 
                 (
                     SELECT questionid 
@@ -99,7 +99,7 @@ function selectQuestionsAlreadyInCurrentQuiz($qid)
                     where quizid=?
                 );";
         $stmt1 = $conn->prepare($select);
-        $stmt1->execute([$qid]);
+        $stmt1->execute([$userid,$qid]);
         return $stmt1->fetchAll();
     }
 

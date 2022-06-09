@@ -5,14 +5,6 @@ if(!$_SESSION["LoggedIn"])
     header("Location: http://localhost/ADOPSE/PHP/Login.php");
 }
 ?>
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--<head>-->
-<!--<!--    <link href="../../Css/Styles.css" rel="stylesheet" type="text/css" media="screen"/>-->-->
-<!--<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->-->
-<!--<!--    <script src="../../Javascript/Javascript.js"></script>-->-->
-<!--</head>-->
-<!--<body>-->
 <?php
 include_once("../Objects/Question.php");
 include_once("../Objects/Answer.php");
@@ -34,4 +26,3 @@ $stmt = $conn->prepare($q);
 $stmt->execute([$_POST["removeFromThisQuiz"], $_POST["thisQuestion"]]);
 $conn = null;
 ?>
-<!--</body>-->

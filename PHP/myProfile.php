@@ -1,6 +1,17 @@
 <?php
 // Start the session
 session_start();
+if(isset($_SESSION["LoggedIn"]))
+    {
+        if(!$_SESSION["LoggedIn"])
+            {
+                header("Location: http://localhost/ADOPSE/PHP/Login.php");
+            }
+    }
+else
+    {
+        header("Location: http://localhost/ADOPSE/PHP/Login.php");
+    }
 ?>
 <html>
 <?php

@@ -1,9 +1,16 @@
 <?php
 session_start();
-if(!$_SESSION["LoggedIn"])
-{
-    header("Location: http://localhost/ADOPSE/PHP/Login.php");
-}
+if(isset($_SESSION["LoggedIn"]))
+    {
+        if(!$_SESSION["LoggedIn"])
+            {
+                header("Location: http://localhost/ADOPSE/PHP/Login.php");
+            }
+    }
+else
+    {
+        header("Location: http://localhost/ADOPSE/PHP/Login.php");
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,7 +19,6 @@ if(!$_SESSION["LoggedIn"])
         include_once("Objects/User.php");
         include_once("DatabaseConnection.php");
         $conn = DatabaseConnection::connect();
-        $GLOBALS['conn']=$conn;
         //User Initialization
         $user = new User();
         $user->setID($_SESSION["UserId"]);  
@@ -23,7 +29,7 @@ if(!$_SESSION["LoggedIn"])
         $title = $topic = $password = $attempts = $neggrade = $shortdesc = $timelimit = $viewable = "";
         $quizid = null;
         //Errors
-        $time0error = $attempt1error  = $neggradeerror = $passemptyerror = "";
+        $time0error = $attempt1error  = $neggradeerror = $passemptyerror = $topicerror = "";
         //Booleans for Quiz Attributes
         $mattempts = $neggradeon = $shuffled = $fwdonly = $passonly = $timed = false;
         //Booleans for integrity checks
@@ -45,7 +51,11 @@ if(!$_SESSION["LoggedIn"])
                 {$titleok = false;}
                 else {$title = $_POST["Title"]; $titleok = true;}
                 //Quiz Topic
-                if (empty($_POST["Topic"])) {$topicok = false;}
+                if (empty($_POST["Topic"]) || strlen($_POST['Topic'])>15) {$topicok = false;
+                if(strlen($_POST['Topic'])>15)
+                    {
+                        $topicerror = "The topic should be less than 15 characters in length.";
+                    }}
                 else {$topic = $_POST["Topic"]; $topicok = true;}
                 //Quiz Short Description
                 if (empty($_POST["ShortDesc"])) {$shortdescok = false;}
@@ -327,6 +337,7 @@ if(!$_SESSION["LoggedIn"])
                    <input required type="text" id="Topic" name="Topic" 
                        value="">
                    <br>
+                   <span class="error"><?php echo $topicerror;?></span>
                    <p class="tip">Try to provide a maximum of 2 words, best describing the topic of your Quiz!</p>
                    <br>
                    <br>
@@ -340,13 +351,13 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to Shuffle the Questions-->
                    <label for="Shuffled" >Shuffle Questions</label>
                    <input type="checkbox" id="Shuffle" name="Shuffled" 
-                       value="Shuffled"> 
+                       value="Shuffled" disabled>
                    <br>
                    <br>
 <!--                   Option to allow multiple attempts-->
                    <label for="Attemps">Allow Multiple Attempts</label>
                    <input type="checkbox" id="Attemps" name="Attemps" 
-                       value="Attemps" onclick="Attempts()"> 
+                       value="Attemps" onclick="Attempts()" >
                    <label for="AttemptCount" id="AttempCountLabel" hidden>Attempt Count : </label>
                    <input type='number' id="AttemptCount" name='AttemptCount' min="0" oninput="this.value = Math.abs(this.value)" hidden>
                    <br>
@@ -365,13 +376,13 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to make your Quiz be "Forward Only"-->
                    <label for="ForwardOnly">Do you want your Quiz to be "Forward Only" ?</label>
                    <input type="checkbox" id="ForwardOnly" name="ForwardOnly" 
-                       value="ForwardOnly"> 
+                       value="ForwardOnly" disabled>
                    <br>
                    <br>
 <!--                   Option to make your Quiz have negative grading-->
                    <label for="NegGrading">Do you want your Quiz to have negative grading?</label>
                    <input type="checkbox" id="NegGrading" name="NegGrading" 
-                       value="NegGrading" onclick="NegativeGrading()">       
+                       value="NegGrading" onclick="NegativeGrading()" disabled>
                    <label for="NegGrade" id="NegGradeLabel" hidden>Correct Answer's Grade / </label>
                    <input type='number' id="NegGrade" name='NegGrade' min="0" oninput="this.value = Math.abs(this.value)" hidden>
                    <br>
@@ -381,7 +392,7 @@ if(!$_SESSION["LoggedIn"])
 <!--                   Option to make your Quiz be accessible only with a password-->
                    <label for="PassOnly">Make your Quiz accessible only with a password?</label>
                    <input type="checkbox" id="PassOnly" name="PassOnly" 
-                       value="PassOnly" onclick="QuizAccessPassword()">
+                       value="PassOnly" onclick="QuizAccessPassword()" disabled>
                    <label for="QuizPassword" id="QuizPasswordLabel" hidden>Password : </label>
                    <input type='text' id="QuizPassword" name='QuizPassword' hidden>
                    <br>

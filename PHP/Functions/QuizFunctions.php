@@ -158,12 +158,19 @@ function isFavorite($userid, $quizid)
         return $result;
     }
 
-function setDeletionIcon($quizid)
+function setDeletionIcon($creatorid, $userid, $quizid)
     {
-        return '<div id="delete'.$quizid.'">
-                        <input type="image" id="deleteThis'.$quizid.'" class="editbutton" src="../images/delete.png" 
-                        onclick="deleteThisQuiz('.$quizid.')" style="width: 40px;height: 40px;">
-                    </div>';
+        if($creatorid==$userid)
+            {
+                return '<div id="delete'.$quizid.'">
+                            <input type="image" id="deleteThis'.$quizid.'" class="editbutton" src="../images/delete.png" 
+                            onclick="deleteThisQuiz('.$quizid.')" style="width: 40px;height: 40px;">
+                        </div>';
+            }
+        else
+            {
+                    return "-";
+            }
     }
 
 function userAllowedAttempts($quizid)
@@ -193,6 +200,37 @@ function userAllowedAttempts($quizid)
             {
                 return "You are not allowed any more attempts.";
             }
+    }
+
+function createdBy($quizid, $state)
+    {
+        $info = getQuizInfo($quizid);
+        $creator = $info['idcreator'];
+        $userdetails = getUserNames($creator);
+        $name = $userdetails['name'];
+        $lname = $userdetails['lname'];
+
+        if($state==1)
+            {
+                return 'Created by '.$name." " .$lname;
+            }
+        else
+            {
+                return $name." ".$lname;
+            }
+
+    }
+
+function  getUserNames($userid)
+    {
+        $conn = DatabaseConnection::connect();
+        $q1 = "SELECT name, lname 
+                        FROM users 
+                        WHERE userid=?";
+        $stmt1 = $conn->prepare($q1);
+        $stmt1->execute([$userid]);
+        $result = $stmt1->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
 
 function answerIsSet($attemptid, $userid, $quizid, $questionid, $answerid, $selection)

@@ -1,13 +1,17 @@
 <?php
 session_start();
 if(isset($_SESSION["LoggedIn"]))
-{
-    if($_SESSION["LoggedIn"])
-        {
-            header("Location: http://localhost/ADOPSE/PHP/index.php");
-        }
-
-}
+if(isset($_SESSION["LoggedIn"]))
+    {
+        if(!$_SESSION["LoggedIn"])
+            {
+                header("Location: http://localhost/ADOPSE/PHP/Login.php");
+            }
+    }
+else
+    {
+        header("Location: http://localhost/ADOPSE/PHP/Login.php");
+    }
 ?>
 <?php 
         require_once "Functions/Functions.php";

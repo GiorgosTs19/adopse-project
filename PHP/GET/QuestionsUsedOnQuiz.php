@@ -39,10 +39,10 @@ else
     {
         $quizid = $_GET['id'];
     }
-$results = selectQuestionsAlreadyInCurrentQuiz($quizid);
+$results = selectQuestionsAlreadyInCurrentQuiz($user->ID,$quizid);
 if(empty($results))
     {
-        echo 'This Quiz Has no Questions added to yet';
+        echo 'You have not added any questions to this quiz yet.';
     }
 else
     {

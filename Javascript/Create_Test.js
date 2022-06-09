@@ -319,3 +319,17 @@ function editThisQuizOnQuizes(quizid)
 
         modal.style.display = "block";
     }
+
+
+function closeWindow()
+{
+    if (confirm("Do you really want to stop editing?") == true)
+    {
+        document.getElementById("myQuizModal").style.display = "none";
+        document.getElementById("myQuizes").style.filter = 'blur(0px)';
+    }
+    else
+    {
+        // text = "You canceled!";
+    }
+}
